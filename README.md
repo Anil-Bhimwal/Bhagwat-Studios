@@ -79,4 +79,4 @@ The app supports configuration through the `config` object in `App.js`. You can 
 
 ## License
 
-© 2024 Bhagwat Digital Studios. All rights reserved.
+© 2025 Bhagwat Digital Studios. All rights reserved.

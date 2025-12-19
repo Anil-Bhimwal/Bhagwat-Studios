@@ -1,75 +1,152 @@
-import React, { useState, useEffect } from 'react';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import CloseIcon from "@mui/icons-material/Close";
 import {
-  Dialog,
-  DialogContent,
   Box,
-  Typography,
-  IconButton,
-  Grid,
   CardMedia,
   Container,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+  Dialog,
+  DialogContent,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 
 const serviceData = {
   portrait: {
-    title: 'Portrait Photography',
+    title: "Portrait Photography",
     images: [
-      { url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop', alt: 'Professional headshot' },
-      { url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=600&fit=crop', alt: 'Studio portrait' },
-      { url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=600&fit=crop', alt: 'Business portrait' },
-      { url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=600&fit=crop', alt: 'Creative portrait' },
-      { url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=600&fit=crop', alt: 'Fashion portrait' },
-      { url: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&h=600&fit=crop', alt: 'Outdoor portrait' },
+      { url: "/images/services/portrait2.png", alt: "Portrait photography" },
+      { url: "/images/services/portrait3.png", alt: "Portrait photography" },
+      { url: "/images/services/portrait4.png", alt: "Portrait photography" },
+      { url: "/images/services/portrait5.png", alt: "Portrait photography" },
+      { url: "/images/services/portrait6.png", alt: "Portrait photography" },
+      { url: "/images/services/portrait7.png", alt: "Portrait photography" },
     ],
-    videoEmoji: '🎬',
-    videoThumbnail: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&h=400&fit=crop',
+    videoEmoji: "🎬",
+    videoThumbnail:
+      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&h=400&fit=crop",
   },
   event: {
-    title: 'Event Photography',
+    title: "Event Photography",
     images: [
-      { url: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop', alt: 'Wedding ceremony' },
-      { url: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=600&fit=crop', alt: 'Party celebration' },
-      { url: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600&h=600&fit=crop', alt: 'Wedding reception' },
-      { url: 'https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=600&h=600&fit=crop', alt: 'Corporate event' },
-      { url: 'https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=600&h=600&fit=crop', alt: 'Birthday party' },
-      { url: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&h=600&fit=crop', alt: 'Special event' },
+      { url: "/images/services/event2.png", alt: "Event photography" },
+      { url: "/images/services/event3.jpg", alt: "Event photography" },
+      { url: "/images/services/event4.png", alt: "Event photography" },
+      { url: "/images/services/event5.png", alt: "Event photography" },
+      { url: "/images/services/event6.png", alt: "Event photography" },
+      { url: "/images/services/event7.jpg", alt: "Event photography" },
     ],
-    videoEmoji: '📹',
-    videoThumbnail: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&h=400&fit=crop',
+    videoEmoji: "📹",
+    videoThumbnail:
+      "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&h=400&fit=crop",
   },
-  commercial: {
-    title: 'Commercial Photography',
+  drone: {
+    title: "Drone Photography",
     images: [
-      { url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=600&fit=crop', alt: 'Product display' },
-      { url: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop', alt: 'Watch photography' },
-      { url: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop', alt: 'Headphone product' },
-      { url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop', alt: 'Shoe photography' },
-      { url: 'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=600&h=600&fit=crop', alt: 'Food photography' },
-      { url: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&h=600&fit=crop', alt: 'Tech product' },
+      { url: "/images/services/drone1.png", alt: "Drone photography" },
+      { url: "/images/services/drone2.png", alt: "Drone photography" },
+      { url: "/images/services/drone3.png", alt: "Drone photography" },
+      { url: "/images/services/drone4.png", alt: "Drone photography" },
+      { url: "/images/services/drone5.png", alt: "Drone photography" },
+      { url: "/images/services/drone6.jpg", alt: "Drone photography" },
     ],
-    videoEmoji: '🎥',
-    videoThumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop',
+    videoEmoji: "🚁",
+    videoThumbnail:
+      "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=800&h=400&fit=crop",
+    video: "/images/services/drone.MP4",
+  },
+  prewedding: {
+    title: "Pre-Wedding Photography",
+    images: [
+      {
+        url: "/images/services/prewedding1.JPG",
+        alt: "Pre-wedding photography",
+      },
+      {
+        url: "/images/services/prewedding2.JPG",
+        alt: "Pre-wedding photography",
+      },
+      {
+        url: "/images/services/prewedding3.JPG",
+        alt: "Pre-wedding photography",
+      },
+      {
+        url: "/images/services/prewedding4.JPG",
+        alt: "Pre-wedding photography",
+      },
+      {
+        url: "/images/services/prewedding5.JPG",
+        alt: "Pre-wedding photography",
+      },
+      {
+        url: "/images/services/prewedding6.jpg",
+        alt: "Pre-wedding photography",
+      },
+    ],
+    videoEmoji: "💕",
+    videoThumbnail:
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&h=400&fit=crop",
   },
 };
 
 const ServiceDetail = ({ serviceType, open, onClose }) => {
   const [hoveredImage, setHoveredImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const data = serviceData[serviceType];
 
   useEffect(() => {
     if (open) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
+      setSelectedImageIndex(null);
     }
 
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     };
   }, [open]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (selectedImageIndex !== null && data) {
+        if (e.key === "ArrowLeft") {
+          handlePreviousImage();
+        } else if (e.key === "ArrowRight") {
+          handleNextImage();
+        } else if (e.key === "Escape") {
+          setSelectedImageIndex(null);
+        }
+      }
+    };
+
+    if (selectedImageIndex !== null) {
+      document.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedImageIndex, data]);
+
+  const handleNextImage = () => {
+    if (data && selectedImageIndex !== null) {
+      setSelectedImageIndex((prev) =>
+        prev < data.images.length - 1 ? prev + 1 : 0
+      );
+    }
+  };
+
+  const handlePreviousImage = () => {
+    if (data && selectedImageIndex !== null) {
+      setSelectedImageIndex((prev) =>
+        prev > 0 ? prev - 1 : data.images.length - 1
+      );
+    }
+  };
 
   if (!data) return null;
 
@@ -81,19 +158,19 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
       fullWidth
       PaperProps={{
         sx: {
-          bgcolor: 'background.default',
-          maxHeight: '100vh',
+          bgcolor: "background.default",
+          maxHeight: "100vh",
           m: 0,
-          height: '100vh',
+          height: "100vh",
         },
       }}
     >
       <Box
         sx={{
-          position: 'sticky',
+          position: "sticky",
           top: 0,
-          bgcolor: 'background.paper',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+          bgcolor: "background.paper",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
           zIndex: 10,
           p: 2,
         }}
@@ -101,19 +178,19 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
         <Container maxWidth="lg">
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
               gap: 2,
-              flexWrap: 'wrap',
+              flexWrap: "wrap",
             }}
           >
             <Typography
               variant="h2"
               sx={{
-                fontSize: { xs: '1.3rem', md: '2rem' },
+                fontSize: { xs: "1.3rem", md: "2rem" },
                 fontWeight: 700,
-                color: 'text.primary',
+                color: "text.primary",
               }}
             >
               {data.title}
@@ -121,11 +198,11 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
             <IconButton
               onClick={onClose}
               sx={{
-                bgcolor: 'primary.main',
-                background: 'linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)',
-                color: 'white',
-                '&:hover': {
-                  bgcolor: 'primary.dark',
+                bgcolor: "primary.main",
+                background: "linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)",
+                color: "white",
+                "&:hover": {
+                  bgcolor: "primary.dark",
                 },
               }}
             >
@@ -135,34 +212,25 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
         </Container>
       </Box>
 
-      <DialogContent sx={{ p: 0, overflow: 'auto' }}>
+      <DialogContent sx={{ p: 0, overflow: "auto" }}>
         <Container maxWidth="lg" sx={{ py: 4 }}>
           <Box sx={{ mb: 4 }}>
-            <Typography
-              variant="h3"
-              sx={{
-                fontSize: { xs: '1.5rem', md: '1.8rem' },
-                fontWeight: 600,
-                color: 'text.primary',
-                mb: 2,
-              }}
-            >
-              Gallery
-            </Typography>
             <Grid container spacing={2}>
               {data.images.map((img, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                   <Box
                     onMouseEnter={() => setHoveredImage(index)}
                     onMouseLeave={() => setHoveredImage(null)}
+                    onClick={() => setSelectedImageIndex(index)}
                     sx={{
                       borderRadius: 2,
                       height: 300,
-                      overflow: 'hidden',
-                      boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                      transition: 'transform 0.3s',
-                      cursor: 'pointer',
-                      transform: hoveredImage === index ? 'scale(1.05)' : 'scale(1)',
+                      overflow: "hidden",
+                      boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+                      transition: "transform 0.3s",
+                      cursor: "pointer",
+                      transform:
+                        hoveredImage === index ? "scale(1.05)" : "scale(1)",
                     }}
                   >
                     <CardMedia
@@ -170,15 +238,16 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                       image={img.url}
                       alt={img.alt}
                       sx={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        transition: 'transform 0.3s',
-                        transform: hoveredImage === index ? 'scale(1.1)' : 'scale(1)',
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        transition: "transform 0.3s",
+                        transform:
+                          hoveredImage === index ? "scale(1.1)" : "scale(1)",
                       }}
                       onError={(e) => {
-                        e.target.style.display = 'none';
-                        const fallback = document.createElement('div');
+                        e.target.style.display = "none";
+                        const fallback = document.createElement("div");
                         fallback.style.cssText = `
                           width: 100%;
                           height: 100%;
@@ -188,7 +257,7 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                           justify-content: center;
                           font-size: 3rem;
                         `;
-                        fallback.textContent = '📷';
+                        fallback.textContent = "📷";
                         e.target.parentNode.appendChild(fallback);
                       }}
                     />
@@ -198,99 +267,200 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
             </Grid>
           </Box>
 
-          <Box>
-            <Typography
-              variant="h3"
+          {data.video && (
+            <Box>
+              <Typography
+                variant="h3"
+                sx={{
+                  fontSize: { xs: "1.5rem", md: "1.8rem" },
+                  fontWeight: 600,
+                  color: "text.primary",
+                  mb: 2,
+                }}
+              >
+                Behind the Scenes
+              </Typography>
+              <Box
+                sx={{
+                  bgcolor: "background.paper",
+                  borderRadius: 2,
+                  p: { xs: 2, md: 4 },
+                  textAlign: "center",
+                  maxWidth: 800,
+                  mx: "auto",
+                }}
+              >
+                <Box
+                  sx={{
+                    borderRadius: 2,
+                    height: { xs: 250, md: 400 },
+                    position: "relative",
+                    boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+                    overflow: "hidden",
+                    mb: 2,
+                  }}
+                >
+                  <Box
+                    component="video"
+                    src={data.video}
+                    controls
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                    }}
+                    onError={(e) => {
+                      // Hide video if it fails to load
+                      e.target.style.display = "none";
+                    }}
+                  />
+                </Box>
+                <Typography
+                  sx={{
+                    color: "text.secondary",
+                    fontSize: "1.1rem",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Experience our professional {data.title.toLowerCase()}{" "}
+                  services. Watch how we capture every perfect moment with
+                  precision and artistry.
+                </Typography>
+              </Box>
+            </Box>
+          )}
+        </Container>
+      </DialogContent>
+
+      {/* Image Lightbox Modal */}
+      <Dialog
+        open={selectedImageIndex !== null}
+        onClose={() => setSelectedImageIndex(null)}
+        maxWidth={false}
+        PaperProps={{
+          sx: {
+            bgcolor: "rgba(0, 0, 0, 0.95)",
+            maxWidth: "95vw",
+            maxHeight: "95vh",
+            m: 2,
+            position: "relative",
+          },
+        }}
+      >
+        <IconButton
+          onClick={() => setSelectedImageIndex(null)}
+          sx={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+            zIndex: 10,
+            bgcolor: "rgba(0, 0, 0, 0.5)",
+            color: "white",
+            "&:hover": {
+              bgcolor: "rgba(0, 0, 0, 0.7)",
+            },
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+
+        {selectedImageIndex !== null && data && (
+          <>
+            <IconButton
+              onClick={handlePreviousImage}
               sx={{
-                fontSize: { xs: '1.5rem', md: '1.8rem' },
-                fontWeight: 600,
-                color: 'text.primary',
-                mb: 2,
+                position: "absolute",
+                left: 8,
+                top: "50%",
+                transform: "translateY(-50%)",
+                zIndex: 10,
+                bgcolor: "rgba(0, 0, 0, 0.5)",
+                color: "white",
+                "&:hover": {
+                  bgcolor: "rgba(0, 0, 0, 0.7)",
+                },
               }}
             >
-              Behind the Scenes
-            </Typography>
+              <ChevronLeftIcon />
+            </IconButton>
+
+            <IconButton
+              onClick={handleNextImage}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: "50%",
+                transform: "translateY(-50%)",
+                zIndex: 10,
+                bgcolor: "rgba(0, 0, 0, 0.5)",
+                color: "white",
+                "&:hover": {
+                  bgcolor: "rgba(0, 0, 0, 0.7)",
+                },
+              }}
+            >
+              <ChevronRightIcon />
+            </IconButton>
+
             <Box
               sx={{
-                bgcolor: 'background.paper',
-                borderRadius: 2,
-                p: { xs: 2, md: 4 },
-                textAlign: 'center',
-                maxWidth: 800,
-                mx: 'auto',
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                p: 2,
+                maxWidth: "90vw",
+                maxHeight: "90vh",
+                overflow: "hidden",
+                position: "relative",
               }}
             >
               <Box
                 sx={{
-                  borderRadius: 2,
-                  height: { xs: 250, md: 400 },
-                  position: 'relative',
-                  boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
-                  overflow: 'hidden',
-                  mb: 2,
+                  maxWidth: "100%",
+                  maxHeight: "calc(90vh + 100px)",
+                  overflow: "hidden",
+                  clipPath: "inset(0 0 100px 0)",
                 }}
               >
                 <CardMedia
                   component="img"
-                  image={data.videoThumbnail}
-                  alt="Video thumbnail"
+                  image={data.images[selectedImageIndex]?.url}
+                  alt={data.images[selectedImageIndex]?.alt}
                   sx={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
+                    maxWidth: "100%",
+                    maxHeight: "calc(90vh + 100px)",
+                    objectFit: "contain",
+                    objectPosition: "top",
                   }}
                   onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.parentNode.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                    e.target.style.display = "none";
                   }}
                 />
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    bgcolor: 'rgba(0,0,0,0.3)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 2,
-                  }}
-                >
-                  <IconButton
-                    sx={{
-                      width: 80,
-                      height: 80,
-                      bgcolor: 'rgba(255,255,255,0.95)',
-                      color: 'secondary.main',
-                      boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
-                      '&:hover': {
-                        bgcolor: 'white',
-                        transform: 'scale(1.1)',
-                      },
-                    }}
-                  >
-                    <PlayArrowIcon sx={{ fontSize: 40 }} />
-                  </IconButton>
-                </Box>
               </Box>
-              <Typography
-                sx={{
-                  color: 'text.secondary',
-                  fontSize: '1.1rem',
-                  lineHeight: 1.6,
-                }}
-              >
-                Experience our professional {data.title.toLowerCase()} services. Watch how we capture every perfect moment with precision and artistry.
-              </Typography>
             </Box>
-          </Box>
-        </Container>
-      </DialogContent>
+
+            <Box
+              sx={{
+                position: "absolute",
+                bottom: 16,
+                left: "50%",
+                transform: "translateX(-50%)",
+                bgcolor: "rgba(0, 0, 0, 0.5)",
+                color: "white",
+                px: 2,
+                py: 0.5,
+                borderRadius: 1,
+                fontSize: "0.875rem",
+              }}
+            >
+              {selectedImageIndex + 1} / {data.images.length}
+            </Box>
+          </>
+        )}
+      </Dialog>
     </Dialog>
   );
 };
 
 export default ServiceDetail;
-

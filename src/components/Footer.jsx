@@ -289,7 +289,7 @@ const Footer = ({ config }) => {
               fontSize: { xs: '0.8rem', md: '0.9rem' },
             }}
           >
-            {config?.footer_text || '© 2024 Bhagwat Digital Studios. All rights reserved.'}
+            {config?.footer_text || '© 2025 Bhagwat Digital Studios. All rights reserved.'}
           </Typography>
         </Box>
       </Container>

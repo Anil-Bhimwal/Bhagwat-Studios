@@ -38,7 +38,7 @@ const defaultConfig = {
   contact_title: "Let's Create Together",
   contact_subtitle:
     "Ready to capture your special moments? Get in touch with us today to discuss your photography needs.",
-  footer_text: "© 2024 Bhagwat Digital Studios. All rights reserved.",
+  footer_text: "© 2025 Bhagwat Digital Studios. All rights reserved.",
 };
 
 function App() {

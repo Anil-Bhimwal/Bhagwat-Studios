@@ -48,7 +48,7 @@ const Hero = ({ config }) => {
       sx={{
         position: 'relative',
         background: `linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%), 
-                     url('https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=1600&h=900&fit=crop') center/cover`,
+                     url('/images/hero/background.jpg') center/cover`,
         minHeight: { xs: '60vh', md: '80vh' },
         display: 'flex',
         alignItems: 'center',

@@ -27,11 +27,13 @@ const defaultConfig = {
   service_1_desc: "Professional headshots and personal portraits that capture your unique personality and style.",
   service_2_title: "Event Photography",
   service_2_desc: "Comprehensive coverage of weddings, parties, and corporate events with stunning detail.",
-  service_3_title: "Commercial Photography",
-  service_3_desc: "High-quality product and brand photography for businesses and marketing campaigns.",
+  service_4_title: "Drone Photography",
+  service_4_desc: "Aerial photography and videography services capturing stunning bird's-eye views for real estate, events, and landscapes.",
+  service_5_title: "Pre-Wedding Photography",
+  service_5_desc: "Romantic pre-wedding shoots capturing your love story in beautiful locations with creative poses and stunning visuals.",
   contact_title: "Let's Create Together",
   contact_subtitle: "Ready to capture your special moments? Get in touch with us today to discuss your photography needs.",
-  footer_text: "© 2024 Bhagwat Digital Studios. All rights reserved.",
+  footer_text: "© 2025 Bhagwat Digital Studios. All rights reserved.",
 };
 
 function App() {

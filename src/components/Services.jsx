@@ -1,73 +1,67 @@
-import React, { useEffect, useRef } from 'react';
-import { Box, Typography, Container, Grid, Card, CardContent, Button } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
-import EventIcon from '@mui/icons-material/Event';
-import BusinessIcon from '@mui/icons-material/Business';
+import React, { useEffect, useRef, useState } from 'react';
+import { Box, Typography, Container, Grid, Button, CardMedia } from '@mui/material';
 
 const Services = ({ config, onServiceClick }) => {
-  const serviceCardsRef = useRef([]);
+  const serviceRefs = useRef([]);
+  const videoRefs = useRef([]);
+  const [visibleServices, setVisibleServices] = useState([]);
 
   useEffect(() => {
-    const handleParallax = () => {
-      const isMobile = window.innerWidth <= 768;
-      const cardIntensity = isMobile ? 0.03 : 0.05;
-
-      serviceCardsRef.current.forEach((card, index) => {
-        if (!card) return;
-
-        const rect = card.getBoundingClientRect();
-        const elementTop = rect.top;
-        const windowHeight = window.innerHeight;
-
-        if (elementTop < windowHeight && elementTop > -rect.height) {
-          const offset = (windowHeight - elementTop) * cardIntensity;
-          const stagger = index * 0.02;
-          const scale = card.classList.contains('hover-active') ? 1.05 : 1;
-          card.style.transform = `translateY(${-offset * (1 + stagger)}px) scale(${scale})`;
-        }
-      });
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px',
     };
 
-    const throttledParallax = (() => {
-      let lastCall = 0;
-      return () => {
-        const now = Date.now();
-        if (now - lastCall < 10) return;
-        lastCall = now;
-        handleParallax();
-      };
-    })();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const serviceId = entry.target.dataset.serviceId;
+          setVisibleServices((prev) => {
+            if (!prev.includes(serviceId)) {
+              return [...prev, serviceId];
+            }
+            return prev;
+          });
+        }
+      });
+    }, observerOptions);
 
-    window.addEventListener('scroll', throttledParallax);
-    window.addEventListener('load', handleParallax);
+    serviceRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
 
     return () => {
-      window.removeEventListener('scroll', throttledParallax);
-      window.removeEventListener('load', handleParallax);
+      serviceRefs.current.forEach((ref) => {
+        if (ref) observer.unobserve(ref);
+      });
     };
   }, []);
 
   const services = [
     {
       id: 'portrait',
-      icon: <PersonIcon sx={{ fontSize: 40 }} />,
       title: config?.service_1_title || 'Portrait Photography',
       description: config?.service_1_desc || 'Professional headshots and personal portraits that capture your unique personality and style.',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop',
+      image: '/images/services/portrait1.JPG',
     },
     {
       id: 'event',
-      icon: <EventIcon sx={{ fontSize: 40 }} />,
       title: config?.service_2_title || 'Event Photography',
       description: config?.service_2_desc || 'Comprehensive coverage of weddings, parties, and corporate events with stunning detail.',
-      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=800&fit=crop',
+      image: '/images/services/wedding_ceremony.jpg',
     },
     {
-      id: 'commercial',
-      icon: <BusinessIcon sx={{ fontSize: 40 }} />,
-      title: config?.service_3_title || 'Commercial Photography',
-      description: config?.service_3_desc || 'High-quality product and brand photography for businesses and marketing campaigns.',
-      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=800&fit=crop',
+      id: 'drone',
+      title: config?.service_4_title || 'Drone Photography',
+      description: config?.service_4_desc || 'Aerial photography and videography services capturing stunning bird\'s-eye views for real estate, events, and landscapes.',
+      image: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&h=800&fit=crop',
+      video: '/images/services/cinematography.MP4',
+    },
+    {
+      id: 'prewedding',
+      title: config?.service_5_title || 'Pre-Wedding Photography',
+      description: config?.service_5_desc || 'Romantic pre-wedding shoots capturing your love story in beautiful locations with creative poses and stunning visuals.',
+      image: '/images/services/cinemetography-1.jpg',
     },
   ];
 
@@ -88,121 +82,195 @@ const Services = ({ config, onServiceClick }) => {
             fontWeight: 700,
             color: 'text.primary',
             textAlign: 'center',
-            mb: 4,
+            mb: { xs: 4, md: 6 },
+            fontFamily: "'Playfair Display', serif",
           }}
         >
           {config?.services_title || 'Our Services'}
         </Typography>
-        <Grid container spacing={3}>
-          {services.map((service, index) => (
-            <Grid item xs={12} sm={6} md={4} key={service.id}>
-              <Card
-                ref={(el) => (serviceCardsRef.current[index] = el)}
-                onClick={() => onServiceClick(service.id)}
-                onMouseEnter={(e) => e.currentTarget.classList.add('hover-active')}
-                onMouseLeave={(e) => e.currentTarget.classList.remove('hover-active')}
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 4, md: 6 } }}>
+          {services.map((service, index) => {
+            const isEven = index % 2 === 1; // Even index (0-based) means 2nd, 4th service
+            const isVisible = visibleServices.includes(service.id);
+
+            return (
+              <Box
+                key={service.id}
+                ref={(el) => (serviceRefs.current[index] = el)}
+                data-service-id={service.id}
                 sx={{
-                  height: '100%',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  cursor: 'pointer',
-                  transition: 'transform 0.3s ease',
-                  '&:hover': {
-                    transform: 'scale(1.05)',
-                  },
+                  opacity: isVisible ? 1 : 0,
+                  transition: 'opacity 0.6s ease',
                 }}
               >
-                <Box
+                <Grid
+                  container
+                  spacing={4}
+                  alignItems="center"
                   sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    zIndex: 0,
-                    opacity: 0.35,
+                    flexDirection: {
+                      xs: 'column',
+                      md: 'row',
+                    },
                   }}
                 >
-                  <Box
-                    component="img"
-                    src={service.image}
-                    alt=""
+                  {/* Image Side */}
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
                     sx={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                    }}
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                    }}
-                  />
-                </Box>
-                <CardContent
-                  sx={{
-                    position: 'relative',
-                    zIndex: 1,
-                    textAlign: 'center',
-                    py: 4,
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: 80,
-                      height: 80,
-                      mx: 'auto',
-                      mb: 2,
-                      bgcolor: 'primary.main',
-                      background: 'linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
+                      order: { xs: 1, md: isEven ? 2 : 1 },
                     }}
                   >
-                    {service.icon}
-                  </Box>
-                  <Typography
-                    variant="h3"
+                    <Box
+                      sx={{
+                        position: 'relative',
+                        borderRadius: 3,
+                        overflow: 'hidden',
+                        boxShadow: '0 8px 25px rgba(0,0,0,0.5)',
+                        height: { xs: 300, md: 400 },
+                        transform: isVisible
+                          ? 'translateX(0)'
+                          : isEven
+                          ? 'translateX(100px)'
+                          : 'translateX(-100px)',
+                        opacity: isVisible ? 1 : 0,
+                        transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease',
+                      }}
+                    >
+                      {service.video ? (
+                        <Box
+                          component="video"
+                          ref={(el) => (videoRefs.current[index] = el)}
+                          src={service.video}
+                          loop
+                          muted
+                          playsInline
+                          preload="metadata"
+                          sx={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            cursor: 'pointer',
+                            transition: 'transform 0.3s ease',
+                            '&:hover': {
+                              transform: 'scale(1.05)',
+                            },
+                          }}
+                          onClick={() => onServiceClick(service.id)}
+                          onMouseEnter={(e) => {
+                            const video = e.target;
+                            video.play().catch(() => {
+                              // Handle play error silently
+                            });
+                          }}
+                          onMouseLeave={(e) => {
+                            const video = e.target;
+                            video.pause();
+                            video.currentTime = 0; // Reset to start
+                          }}
+                          onError={(e) => {
+                            // Fallback to image if video fails
+                            e.target.style.display = 'none';
+                            const img = e.target.nextElementSibling;
+                            if (img) img.style.display = 'block';
+                          }}
+                        />
+                      ) : null}
+                      <CardMedia
+                        component="img"
+                        image={service.image}
+                        alt={service.title}
+                        sx={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          cursor: 'pointer',
+                          transition: 'transform 0.3s ease',
+                          display: service.video ? 'none' : 'block',
+                          '&:hover': {
+                            transform: 'scale(1.05)',
+                          },
+                        }}
+                        onClick={() => onServiceClick(service.id)}
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    </Box>
+                  </Grid>
+
+                  {/* Content Side */}
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
                     sx={{
-                      fontSize: '1.5rem',
-                      fontWeight: 600,
-                      color: 'text.primary',
-                      mb: 1,
+                      order: { xs: 2, md: isEven ? 1 : 2 },
                     }}
                   >
-                    {service.title}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: 'text.secondary',
-                      lineHeight: 1.6,
-                      mb: 2,
-                    }}
-                  >
-                    {service.description}
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onServiceClick(service.id);
-                    }}
-                    sx={{
-                      bgcolor: 'primary.main',
-                      background: 'linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)',
-                      '&:hover': {
-                        bgcolor: 'primary.dark',
-                      },
-                    }}
-                  >
-                    View Gallery
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+                    <Box
+                      sx={{
+                        textAlign: { xs: 'center', md: isEven ? 'right' : 'left' },
+                        transform: isVisible
+                          ? 'translateX(0)'
+                          : isEven
+                          ? 'translateX(-100px)'
+                          : 'translateX(100px)',
+                        opacity: isVisible ? 1 : 0,
+                        transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease',
+                        transitionDelay: '0.2s',
+                      }}
+                    >
+                      <Typography
+                        variant="h3"
+                        sx={{
+                          fontSize: { xs: '1.8rem', md: '2rem' },
+                          fontWeight: 600,
+                          color: 'text.primary',
+                          mb: 2,
+                          fontFamily: "'Playfair Display', serif",
+                        }}
+                      >
+                        {service.title}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          color: 'text.secondary',
+                          lineHeight: 1.8,
+                          mb: 3,
+                          fontSize: { xs: '1rem', md: '1.1rem' },
+                        }}
+                      >
+                        {service.description}
+                      </Typography>
+                      <Button
+                        variant="contained"
+                        onClick={() => onServiceClick(service.id)}
+                        sx={{
+                          bgcolor: 'primary.main',
+                          background: 'linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)',
+                          px: 4,
+                          py: 1.5,
+                          fontSize: { xs: '0.95rem', md: '1rem' },
+                          boxShadow: '0 4px 15px rgba(231, 76, 60, 0.3)',
+                          '&:hover': {
+                            bgcolor: 'primary.dark',
+                            boxShadow: '0 6px 20px rgba(231, 76, 60, 0.4)',
+                          },
+                        }}
+                      >
+                        View Gallery
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Box>
+            );
+          })}
+        </Box>
       </Container>
     </Box>
   );
