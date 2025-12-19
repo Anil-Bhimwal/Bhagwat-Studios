@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography, Container, Grid, Button, CardMedia } from '@mui/material';
+import { Box, Typography, Container, Grid, Button, CardMedia, CircularProgress } from '@mui/material';
 
 const Services = ({ config, onServiceClick }) => {
   const serviceRefs = useRef([]);
   const videoRefs = useRef([]);
   const [visibleServices, setVisibleServices] = useState([]);
+  const [loadingMedia, setLoadingMedia] = useState({});
 
   useEffect(() => {
     const observerOptions = {
@@ -140,6 +141,24 @@ const Services = ({ config, onServiceClick }) => {
                         transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease',
                       }}
                     >
+                      {loadingMedia[service.id] && (
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            bgcolor: 'rgba(0, 0, 0, 0.7)',
+                            zIndex: 2,
+                          }}
+                        >
+                          <CircularProgress sx={{ color: 'primary.main' }} />
+                        </Box>
+                      )}
                       {service.video ? (
                         <Box
                           component="video"
@@ -149,12 +168,22 @@ const Services = ({ config, onServiceClick }) => {
                           muted
                           playsInline
                           preload="metadata"
+                          onLoadStart={() => {
+                            setLoadingMedia((prev) => ({ ...prev, [service.id]: true }));
+                          }}
+                          onCanPlay={() => {
+                            setLoadingMedia((prev) => ({ ...prev, [service.id]: false }));
+                          }}
+                          onLoadedData={() => {
+                            setLoadingMedia((prev) => ({ ...prev, [service.id]: false }));
+                          }}
                           sx={{
                             width: '100%',
                             height: '100%',
                             objectFit: 'cover',
                             cursor: 'pointer',
-                            transition: 'transform 0.3s ease',
+                            transition: 'transform 0.3s ease, opacity 0.3s',
+                            opacity: loadingMedia[service.id] ? 0 : 1,
                             '&:hover': {
                               transform: 'scale(1.05)',
                             },
@@ -172,6 +201,7 @@ const Services = ({ config, onServiceClick }) => {
                             video.currentTime = 0; // Reset to start
                           }}
                           onError={(e) => {
+                            setLoadingMedia((prev) => ({ ...prev, [service.id]: false }));
                             // Fallback to image if video fails
                             e.target.style.display = 'none';
                             const img = e.target.nextElementSibling;
@@ -183,19 +213,29 @@ const Services = ({ config, onServiceClick }) => {
                         component="img"
                         image={service.image}
                         alt={service.title}
+                        onLoadStart={() => {
+                          if (!service.video) {
+                            setLoadingMedia((prev) => ({ ...prev, [service.id]: true }));
+                          }
+                        }}
+                        onLoad={() => {
+                          setLoadingMedia((prev) => ({ ...prev, [service.id]: false }));
+                        }}
                         sx={{
                           width: '100%',
                           height: '100%',
                           objectFit: 'cover',
                           cursor: 'pointer',
-                          transition: 'transform 0.3s ease',
+                          transition: 'transform 0.3s ease, opacity 0.3s',
                           display: service.video ? 'none' : 'block',
+                          opacity: loadingMedia[service.id] ? 0 : 1,
                           '&:hover': {
                             transform: 'scale(1.05)',
                           },
                         }}
                         onClick={() => onServiceClick(service.id)}
                         onError={(e) => {
+                          setLoadingMedia((prev) => ({ ...prev, [service.id]: false }));
                           e.target.style.display = 'none';
                         }}
                       />

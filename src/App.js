@@ -24,7 +24,7 @@ const defaultConfig = {
   cta_button: "Book a Session",
   about_title: "About Our Studio",
   about_text:
-    "With over 10 years of experience, we specialize in creating timeless memories through our lens. Our passion is to capture authentic emotions and stunning visuals that you'll treasure forever.",
+    "With over 25 years of experience, we specialize in creating timeless memories through our lens. Our passion is to capture authentic emotions and stunning visuals that you'll treasure forever.",
   services_title: "Our Services",
   service_1_title: "Portrait Photography",
   service_1_desc:

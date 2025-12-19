@@ -5,6 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   CardMedia,
+  CircularProgress,
   Container,
   Dialog,
   DialogContent,
@@ -56,7 +57,6 @@ const serviceData = {
     videoEmoji: "🚁",
     videoThumbnail:
       "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=800&h=400&fit=crop",
-    video: "/images/services/drone.MP4",
   },
   prewedding: {
     title: "Pre-Wedding Photography",
@@ -95,6 +95,9 @@ const serviceData = {
 const ServiceDetail = ({ serviceType, open, onClose }) => {
   const [hoveredImage, setHoveredImage] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [loadingImages, setLoadingImages] = useState({});
+  const [loadingVideo, setLoadingVideo] = useState(false);
+  const [loadingLightboxImage, setLoadingLightboxImage] = useState(false);
   const data = serviceData[serviceType];
 
   useEffect(() => {
@@ -125,6 +128,7 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
 
     if (selectedImageIndex !== null) {
       document.addEventListener("keydown", handleKeyDown);
+      setLoadingLightboxImage(true);
     }
 
     return () => {
@@ -229,23 +233,59 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                       boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
                       transition: "transform 0.3s",
                       cursor: "pointer",
+                      position: "relative",
                       transform:
                         hoveredImage === index ? "scale(1.05)" : "scale(1)",
                     }}
                   >
+                    {loadingImages[index] && (
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          bgcolor: "rgba(0, 0, 0, 0.5)",
+                          zIndex: 1,
+                        }}
+                      >
+                        <CircularProgress sx={{ color: "primary.main" }} />
+                      </Box>
+                    )}
                     <CardMedia
                       component="img"
                       image={img.url}
                       alt={img.alt}
+                      onLoad={() => {
+                        setLoadingImages((prev) => ({
+                          ...prev,
+                          [index]: false,
+                        }));
+                      }}
+                      onLoadStart={() => {
+                        setLoadingImages((prev) => ({
+                          ...prev,
+                          [index]: true,
+                        }));
+                      }}
                       sx={{
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
                         transition: "transform 0.3s",
+                        opacity: loadingImages[index] ? 0 : 1,
                         transform:
                           hoveredImage === index ? "scale(1.1)" : "scale(1)",
                       }}
                       onError={(e) => {
+                        setLoadingImages((prev) => ({
+                          ...prev,
+                          [index]: false,
+                        }));
                         e.target.style.display = "none";
                         const fallback = document.createElement("div");
                         fallback.style.cssText = `
@@ -300,19 +340,41 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                     mb: 2,
                   }}
                 >
+                  {loadingVideo && (
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        bgcolor: "rgba(0, 0, 0, 0.7)",
+                        zIndex: 2,
+                      }}
+                    >
+                      <CircularProgress sx={{ color: "primary.main" }} />
+                    </Box>
+                  )}
                   <Box
                     component="video"
                     src={data.video}
                     controls
+                    onLoadStart={() => setLoadingVideo(true)}
+                    onCanPlay={() => setLoadingVideo(false)}
+                    onLoadedData={() => setLoadingVideo(false)}
+                    onError={() => {
+                      setLoadingVideo(false);
+                    }}
                     sx={{
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
                       display: "block",
-                    }}
-                    onError={(e) => {
-                      // Hide video if it fails to load
-                      e.target.style.display = "none";
+                      opacity: loadingVideo ? 0 : 1,
+                      transition: "opacity 0.3s",
                     }}
                   />
                 </Box>
@@ -415,18 +477,35 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                 position: "relative",
               }}
             >
+              {loadingLightboxImage && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    zIndex: 5,
+                  }}
+                >
+                  <CircularProgress sx={{ color: "primary.main" }} size={60} />
+                </Box>
+              )}
               <Box
                 sx={{
                   maxWidth: "100%",
                   maxHeight: "calc(90vh + 100px)",
                   overflow: "hidden",
                   clipPath: "inset(0 0 100px 0)",
+                  opacity: loadingLightboxImage ? 0 : 1,
+                  transition: "opacity 0.3s",
                 }}
               >
                 <CardMedia
                   component="img"
                   image={data.images[selectedImageIndex]?.url}
                   alt={data.images[selectedImageIndex]?.alt}
+                  onLoad={() => setLoadingLightboxImage(false)}
+                  onLoadStart={() => setLoadingLightboxImage(true)}
                   sx={{
                     maxWidth: "100%",
                     maxHeight: "calc(90vh + 100px)",
@@ -434,6 +513,7 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                     objectPosition: "top",
                   }}
                   onError={(e) => {
+                    setLoadingLightboxImage(false);
                     e.target.style.display = "none";
                   }}
                 />

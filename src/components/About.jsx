@@ -1,9 +1,17 @@
-import { Box, CardMedia, Container, Grid, Typography } from "@mui/material";
-import React, { useEffect, useRef } from "react";
+import {
+  Box,
+  CardMedia,
+  CircularProgress,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
 
 const About = ({ config }) => {
   const imageRef = useRef(null);
   const textRef = useRef(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     const handleParallax = () => {
@@ -78,16 +86,39 @@ const About = ({ config }) => {
                 height: { xs: 350, md: 500 },
               }}
             >
+              {!imageLoaded && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    bgcolor: "rgba(0, 0, 0, 0.5)",
+                    zIndex: 1,
+                  }}
+                >
+                  <CircularProgress sx={{ color: "primary.main" }} />
+                </Box>
+              )}
               <CardMedia
                 component="img"
                 image="/images/about/about.png"
                 alt="Photography studio"
+                onLoad={() => setImageLoaded(true)}
+                onLoadStart={() => setImageLoaded(false)}
                 sx={{
                   width: "100%",
                   height: "100%",
                   objectFit: "cover",
+                  opacity: imageLoaded ? 1 : 0,
+                  transition: "opacity 0.3s",
                 }}
                 onError={(e) => {
+                  setImageLoaded(true);
                   e.target.style.display = "none";
                 }}
               />
@@ -115,7 +146,7 @@ const About = ({ config }) => {
                 }}
               >
                 {config?.about_text ||
-                  "With over 10 years of experience, we specialize in creating timeless memories through our lens. Our passion is to capture authentic emotions and stunning visuals that you'll treasure forever."}
+                  "With over 25 years of experience, we specialize in creating timeless memories through our lens. Our passion is to capture authentic emotions and stunning visuals that you'll treasure forever."}
               </Typography>
               <Box
                 sx={{
