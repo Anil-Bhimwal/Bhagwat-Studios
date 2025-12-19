@@ -5,7 +5,6 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
 import ServiceDetail from './components/ServiceDetail';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
 
 const defaultConfig = {
@@ -68,7 +67,6 @@ function App() {
       <Hero config={config} />
       <About config={config} />
       <Services config={config} onServiceClick={handleServiceClick} />
-      <Contact config={config} />
       <Footer config={config} />
       <ServiceDetail
         serviceType={selectedService}

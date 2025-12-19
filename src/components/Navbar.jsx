@@ -15,6 +15,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import ChatIcon from '@mui/icons-material/Chat';
 
 const Logo = () => (
   <svg width="50" height="50" viewBox="0 0 100 100" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>
@@ -62,6 +63,11 @@ const Navbar = ({ config }) => {
     { label: 'About', id: 'about' },
   ];
 
+  const handleWhatsAppClick = () => {
+    // WhatsApp URL format: wa.me/phone_number (without + sign)
+    window.open('https://wa.me/919928961229', '_blank', 'noopener,noreferrer');
+  };
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center', bgcolor: 'background.paper', minHeight: '100vh' }}>
       <List>
@@ -72,6 +78,24 @@ const Navbar = ({ config }) => {
             </ListItemButton>
           </ListItem>
         ))}
+        <ListItem disablePadding>
+          <ListItemButton 
+            onClick={() => {
+              window.open('https://wa.me/919928961229', '_blank', 'noopener,noreferrer');
+              setMobileOpen(false);
+            }}
+          >
+            <ListItemText 
+              primary="Chat with us" 
+              sx={{ 
+                color: 'white',
+                bgcolor: '#25D366',
+                borderRadius: 1,
+                '&:hover': { bgcolor: '#20BA5A' }
+              }} 
+            />
+          </ListItemButton>
+        </ListItem>
         <ListItem disablePadding>
           <ListItemButton onClick={() => scrollToSection('contact')}>
             <ListItemText 
@@ -99,7 +123,7 @@ const Navbar = ({ config }) => {
           zIndex: 50,
         }}
       >
-        <Toolbar sx={{ maxWidth: 1200, mx: 'auto', width: '100%', py: 2 }}>
+        <Toolbar sx={{ maxWidth: 1200, mx: 'auto', width: '100%', py: 1, minHeight: { xs: 56, sm: 64 } }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexGrow: 1 }}>
             <Logo />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -142,22 +166,49 @@ const Navbar = ({ config }) => {
               <MenuIcon />
             </IconButton>
           ) : (
-            <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
               {navItems.map((item) => (
                 <Button
                   key={item.id}
+                  size="small"
                   onClick={() => scrollToSection(item.id)}
-                  sx={{ color: 'text.secondary', fontWeight: 500 }}
+                  sx={{ 
+                    color: 'text.secondary', 
+                    fontWeight: 500,
+                    py: 0.5,
+                    px: 1.5,
+                  }}
                 >
                   {item.label}
                 </Button>
               ))}
               <Button
                 variant="contained"
+                size="small"
+                startIcon={<ChatIcon sx={{ fontSize: 18 }} />}
+                onClick={handleWhatsAppClick}
+                sx={{
+                  bgcolor: '#25D366',
+                  py: 0.5,
+                  px: 1.5,
+                  fontSize: '0.875rem',
+                  '&:hover': {
+                    bgcolor: '#20BA5A',
+                  },
+                }}
+              >
+                Chat with us
+              </Button>
+              <Button
+                variant="contained"
+                size="small"
                 onClick={() => scrollToSection('contact')}
                 sx={{
                   bgcolor: 'primary.main',
                   background: 'linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)',
+                  py: 0.5,
+                  px: 1.5,
+                  fontSize: '0.875rem',
                   '&:hover': {
                     bgcolor: 'primary.dark',
                   },
