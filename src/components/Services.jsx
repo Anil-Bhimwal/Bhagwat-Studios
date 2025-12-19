@@ -4,6 +4,7 @@ import { Box, Typography, Container, Grid, Button, CardMedia, CircularProgress }
 const Services = ({ config, onServiceClick }) => {
   const serviceRefs = useRef([]);
   const videoRefs = useRef([]);
+  const backgroundRef = useRef(null);
   const [visibleServices, setVisibleServices] = useState([]);
   const [loadingMedia, setLoadingMedia] = useState({});
 
@@ -31,10 +32,42 @@ const Services = ({ config, onServiceClick }) => {
       if (ref) observer.observe(ref);
     });
 
+    // Parallax effect for background
+    const handleParallax = () => {
+      const servicesSection = document.getElementById("services");
+      if (!servicesSection || !backgroundRef.current) return;
+
+      const rect = servicesSection.getBoundingClientRect();
+      const elementTop = rect.top;
+      const windowHeight = window.innerHeight;
+      const isMobile = window.innerWidth <= 768;
+      const backgroundIntensity = isMobile ? 0.15 : 0.25; // Upward parallax
+
+      if (elementTop < windowHeight && elementTop > -rect.height) {
+        const backgroundOffset = (windowHeight - elementTop) * backgroundIntensity;
+        backgroundRef.current.style.transform = `translateY(${-backgroundOffset}px)`;
+      }
+    };
+
+    const throttledParallax = (() => {
+      let lastCall = 0;
+      return () => {
+        const now = Date.now();
+        if (now - lastCall < 10) return;
+        lastCall = now;
+        handleParallax();
+      };
+    })();
+
+    window.addEventListener("scroll", throttledParallax);
+    window.addEventListener("load", handleParallax);
+
     return () => {
       serviceRefs.current.forEach((ref) => {
         if (ref) observer.unobserve(ref);
       });
+      window.removeEventListener("scroll", throttledParallax);
+      window.removeEventListener("load", handleParallax);
     };
   }, []);
 
@@ -73,9 +106,46 @@ const Services = ({ config, onServiceClick }) => {
         bgcolor: 'background.default',
         py: { xs: 4, md: 8 },
         px: 2,
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      <Container maxWidth="lg">
+      {/* Background Image with Parallax */}
+      <Box
+        ref={backgroundRef}
+        sx={{
+          position: "absolute",
+          top: "-20%",
+          left: 0,
+          right: 0,
+          bottom: "-20%",
+          width: "100%",
+          height: "140%",
+          backgroundImage: "url('/images/background/camera-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          opacity: 0.3,
+          zIndex: 0,
+          transform: "translateY(0)",
+          transition: "transform 0.1s ease-out",
+          pointerEvents: "none",
+        }}
+      />
+      {/* Overlay to ensure content readability */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "linear-gradient(to bottom, rgba(15, 15, 15, 0.5), rgba(15, 15, 15, 0.75))",
+          zIndex: 1,
+          pointerEvents: "none",
+        }}
+      />
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
         <Typography
           variant="h2"
           sx={{

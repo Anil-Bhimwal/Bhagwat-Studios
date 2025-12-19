@@ -11,6 +11,7 @@ import React, { useEffect, useRef, useState } from "react";
 const About = ({ config }) => {
   const imageRef = useRef(null);
   const textRef = useRef(null);
+  const backgroundRef = useRef(null);
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
@@ -23,9 +24,12 @@ const About = ({ config }) => {
       const windowHeight = window.innerHeight;
       const isMobile = window.innerWidth <= 768;
       const aboutIntensity = isMobile ? 0.04 : 0.08;
+      const backgroundIntensity = isMobile ? 0.15 : 0.25; // Upward parallax for background
 
       if (elementTop < windowHeight && elementTop > -rect.height) {
         const offset = (windowHeight - elementTop) * aboutIntensity;
+        const backgroundOffset =
+          (windowHeight - elementTop) * backgroundIntensity;
 
         if (imageRef.current) {
           imageRef.current.style.transform = `translateY(${-offset}px)`;
@@ -34,6 +38,11 @@ const About = ({ config }) => {
         if (textRef.current) {
           const textOffset = isMobile ? offset * 0.3 : offset * 0.5;
           textRef.current.style.transform = `translateY(${textOffset}px)`;
+        }
+
+        // Upward parallax for background (moves up as you scroll down)
+        if (backgroundRef.current) {
+          backgroundRef.current.style.transform = `translateY(${-backgroundOffset}px)`;
         }
       }
     };
@@ -64,9 +73,47 @@ const About = ({ config }) => {
         bgcolor: "background.default",
         py: { xs: 4, md: 8 },
         px: 2,
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      <Container maxWidth="lg">
+      {/* Background Image with Parallax */}
+      <Box
+        ref={backgroundRef}
+        sx={{
+          position: "absolute",
+          top: "-20%",
+          left: 0,
+          right: 0,
+          bottom: "-20%",
+          width: "100%",
+          height: "140%",
+          backgroundImage: "url('/images/background/camera-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          opacity: 0.3,
+          zIndex: 0,
+          transform: "translateY(0)",
+          transition: "transform 0.1s ease-out",
+          pointerEvents: "none",
+        }}
+      />
+      {/* Overlay to ensure content readability */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background:
+            "linear-gradient(to bottom, rgba(15, 15, 15, 0.5), rgba(15, 15, 15, 0.75))",
+          zIndex: 1,
+          pointerEvents: "none",
+        }}
+      />
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
         <Grid
           container
           spacing={{ xs: 4, md: 6 }}
