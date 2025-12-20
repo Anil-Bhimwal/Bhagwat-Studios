@@ -48,6 +48,7 @@ function App() {
   const [config, setConfig] = useState(defaultConfig);
   const [selectedService, setSelectedService] = useState(null);
   const [isServiceDetailOpen, setIsServiceDetailOpen] = useState(false);
+  const [originPosition, setOriginPosition] = useState(null);
 
   useEffect(() => {
     // Initialize Element SDK if available
@@ -61,7 +62,8 @@ function App() {
     }
   }, []);
 
-  const handleServiceClick = (serviceType) => {
+  const handleServiceClick = (serviceType, position = null) => {
+    setOriginPosition(position);
     setSelectedService(serviceType);
     setIsServiceDetailOpen(true);
   };
@@ -69,6 +71,7 @@ function App() {
   const handleCloseServiceDetail = () => {
     setIsServiceDetailOpen(false);
     setSelectedService(null);
+    setOriginPosition(null);
   };
 
   // Structured Data (JSON-LD) for SEO
@@ -84,7 +87,7 @@ function App() {
       "Professional photography services in Bandikui, Rajasthan. Specializing in portrait, event, drone, and pre-wedding photography. Over 25 years of experience capturing timeless memories.",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Sameer eye hospital, baswa road, Dalvriya ka bass",
+      streetAddress: "Samar eye hospital, baswa road, Dalvriya ka bass",
       addressLocality: "Bandikui",
       addressRegion: "Rajasthan",
       postalCode: "303327",
@@ -212,6 +215,7 @@ function App() {
           serviceType={selectedService}
           open={isServiceDetailOpen}
           onClose={handleCloseServiceDetail}
+          originPosition={originPosition}
         />
       </Box>
     </>

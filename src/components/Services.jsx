@@ -1,3 +1,4 @@
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import {
   Box,
   Button,
@@ -10,8 +11,432 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import React, { useEffect, useRef, useState } from "react";
+
+// Video Recording Animation Component
+const VideoRecordingAnimation = ({ onComplete }) => {
+  const [phase, setPhase] = useState("preparing"); // preparing -> recording -> complete
+
+  useEffect(() => {
+    const timings = {
+      preparing: 600,
+      recording: 800,
+    };
+
+    const preparingTimer = setTimeout(() => {
+      setPhase("recording");
+    }, timings.preparing);
+
+    const recordingTimer = setTimeout(() => {
+      setPhase("complete");
+      if (onComplete) onComplete();
+    }, timings.preparing + timings.recording);
+
+    return () => {
+      clearTimeout(preparingTimer);
+      clearTimeout(recordingTimer);
+    };
+  }, [onComplete]);
+
+  return (
+    <Box
+      sx={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: "rgba(0, 0, 0, 0.9)",
+        zIndex: 3,
+        overflow: "hidden",
+      }}
+    >
+      {/* Video Camera */}
+      <Box
+        sx={{
+          position: "relative",
+          width: 200,
+          height: 150,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {/* Camera Body */}
+        <Box
+          sx={{
+            position: "relative",
+            width: 180,
+            height: 120,
+            borderRadius: 2,
+            bgcolor: "rgba(255, 255, 255, 0.1)",
+            border: "3px solid rgba(255, 255, 255, 0.3)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          {/* Video Screen */}
+          <Box
+            sx={{
+              width: 140,
+              height: 90,
+              borderRadius: 1,
+              bgcolor: "rgba(0, 0, 0, 0.5)",
+              border: "2px solid rgba(255, 255, 255, 0.2)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            {/* Film Strip Effect */}
+            {phase === "recording" && (
+              <>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: "20%",
+                    background:
+                      "repeating-linear-gradient(90deg, rgba(255,255,255,0.1) 0px, rgba(255,255,255,0.1) 8px, transparent 8px, transparent 16px)",
+                    animation: "filmMove 0.3s linear infinite",
+                    "@keyframes filmMove": {
+                      "0%": { transform: "translateX(0)" },
+                      "100%": { transform: "translateX(16px)" },
+                    },
+                  }}
+                />
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: "20%",
+                    background:
+                      "repeating-linear-gradient(90deg, rgba(255,255,255,0.1) 0px, rgba(255,255,255,0.1) 8px, transparent 8px, transparent 16px)",
+                    animation: "filmMove 0.3s linear infinite",
+                  }}
+                />
+              </>
+            )}
+            {/* Recording Indicator */}
+            {phase === "recording" && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 8,
+                  right: 8,
+                  width: 12,
+                  height: 12,
+                  borderRadius: "50%",
+                  bgcolor: "#FF0000",
+                  animation: "recordingPulse 1s ease-in-out infinite",
+                  "@keyframes recordingPulse": {
+                    "0%, 100%": {
+                      opacity: 1,
+                      boxShadow: "0 0 0 0 rgba(255, 0, 0, 0.7)",
+                    },
+                    "50%": {
+                      opacity: 0.7,
+                      boxShadow: "0 0 0 8px rgba(255, 0, 0, 0)",
+                    },
+                  },
+                }}
+              />
+            )}
+            {/* Play Icon Preview */}
+            {phase === "preparing" && (
+              <Box
+                sx={{
+                  width: 0,
+                  height: 0,
+                  borderLeft: "20px solid rgba(255, 255, 255, 0.8)",
+                  borderTop: "12px solid transparent",
+                  borderBottom: "12px solid transparent",
+                  marginLeft: "4px",
+                }}
+              />
+            )}
+          </Box>
+          {/* Microphone */}
+          <Box
+            sx={{
+              position: "absolute",
+              top: 8,
+              left: 12,
+              width: 8,
+              height: 20,
+              borderRadius: "4px",
+              bgcolor: "rgba(255, 255, 255, 0.3)",
+            }}
+          />
+        </Box>
+        {/* Camera Top */}
+        <Box
+          sx={{
+            position: "absolute",
+            top: -12,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 120,
+            height: 20,
+            borderRadius: "12px 12px 0 0",
+            bgcolor: "rgba(255, 255, 255, 0.15)",
+            border: "2px solid rgba(255, 255, 255, 0.2)",
+            borderBottom: "none",
+          }}
+        />
+      </Box>
+
+      {/* Recording Text */}
+      {phase === "recording" && (
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 40,
+            left: "50%",
+            transform: "translateX(-50%)",
+            color: "white",
+            fontSize: "0.875rem",
+            fontFamily: "monospace",
+            letterSpacing: "0.1em",
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
+          <Box
+            sx={{
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              bgcolor: "#FF0000",
+              animation: "recordingPulse 1s ease-in-out infinite",
+            }}
+          />
+          REC
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+// Camera Capture Animation Component
+const CameraCaptureAnimation = ({ onComplete }) => {
+  const [phase, setPhase] = useState("focusing"); // focusing -> capturing -> flash -> complete
+
+  useEffect(() => {
+    const timings = {
+      focusing: 800,
+      capturing: 400,
+      flash: 200,
+    };
+
+    const focusingTimer = setTimeout(() => {
+      setPhase("capturing");
+    }, timings.focusing);
+
+    const capturingTimer = setTimeout(() => {
+      setPhase("flash");
+    }, timings.focusing + timings.capturing);
+
+    const flashTimer = setTimeout(() => {
+      setPhase("complete");
+      if (onComplete) onComplete();
+    }, timings.focusing + timings.capturing + timings.flash);
+
+    return () => {
+      clearTimeout(focusingTimer);
+      clearTimeout(capturingTimer);
+      clearTimeout(flashTimer);
+    };
+  }, [onComplete]);
+
+  return (
+    <Box
+      sx={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: "rgba(0, 0, 0, 0.9)",
+        zIndex: 3,
+        overflow: "hidden",
+      }}
+    >
+      {/* Camera Viewfinder */}
+      <Box
+        sx={{
+          position: "relative",
+          width: 200,
+          height: 150,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {/* Camera Body */}
+        <Box
+          sx={{
+            position: "relative",
+            width: 160,
+            height: 120,
+            borderRadius: 2,
+            bgcolor: "rgba(255, 255, 255, 0.1)",
+            border: "3px solid rgba(255, 255, 255, 0.3)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          {/* Camera Lens */}
+          <Box
+            sx={{
+              width: 80,
+              height: 80,
+              borderRadius: "50%",
+              border: "4px solid rgba(255, 255, 255, 0.4)",
+              bgcolor: "rgba(0, 0, 0, 0.3)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "relative",
+            }}
+          >
+            {/* Inner Lens Circle */}
+            <Box
+              sx={{
+                width: 50,
+                height: 50,
+                borderRadius: "50%",
+                bgcolor: "rgba(0, 0, 0, 0.6)",
+                border: "2px solid rgba(255, 255, 255, 0.2)",
+              }}
+            />
+            {/* Focusing Animation */}
+            {phase === "focusing" && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "50%",
+                  border: "2px solid rgba(0, 255, 0, 0.6)",
+                  animation: "pulse 0.6s ease-in-out infinite",
+                  "@keyframes pulse": {
+                    "0%, 100%": {
+                      transform: "scale(0.8)",
+                      opacity: 0.6,
+                    },
+                    "50%": {
+                      transform: "scale(1.1)",
+                      opacity: 1,
+                    },
+                  },
+                }}
+              />
+            )}
+            {/* Shutter Animation */}
+            {phase === "capturing" && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "50%",
+                  bgcolor: "rgba(255, 255, 255, 0.95)",
+                  animation: "shutterClick 0.4s ease-in-out",
+                  "@keyframes shutterClick": {
+                    "0%": {
+                      opacity: 0,
+                      transform: "scale(0)",
+                    },
+                    "50%": {
+                      opacity: 1,
+                      transform: "scale(1)",
+                    },
+                    "100%": {
+                      opacity: 0,
+                      transform: "scale(0)",
+                    },
+                  },
+                }}
+              />
+            )}
+          </Box>
+          {/* Flash */}
+          <Box
+            sx={{
+              position: "absolute",
+              top: 12,
+              right: 16,
+              width: 20,
+              height: 20,
+              borderRadius: "50%",
+              bgcolor: "rgba(255, 255, 255, 0.6)",
+              opacity: phase === "capturing" ? 1 : 0.3,
+              transition: "opacity 0.2s",
+            }}
+          />
+        </Box>
+        {/* Camera Top */}
+        <Box
+          sx={{
+            position: "absolute",
+            top: -12,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 100,
+            height: 20,
+            borderRadius: "12px 12px 0 0",
+            bgcolor: "rgba(255, 255, 255, 0.15)",
+            border: "2px solid rgba(255, 255, 255, 0.2)",
+            borderBottom: "none",
+          }}
+        />
+      </Box>
+
+      {/* Flash Effect */}
+      {phase === "flash" && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            bgcolor: "rgba(255, 255, 255, 0.95)",
+            animation: "flash 0.2s ease-out",
+            "@keyframes flash": {
+              "0%": {
+                opacity: 1,
+              },
+              "100%": {
+                opacity: 0,
+              },
+            },
+          }}
+        />
+      )}
+    </Box>
+  );
+};
 
 const Services = ({ config, onServiceClick }) => {
   const serviceRefs = useRef([]);
@@ -20,6 +445,8 @@ const Services = ({ config, onServiceClick }) => {
   const [visibleServices, setVisibleServices] = useState([]);
   const [loadingMedia, setLoadingMedia] = useState({});
   const [playingVideos, setPlayingVideos] = useState({});
+  const [cameraAnimationComplete, setCameraAnimationComplete] = useState({});
+  const [videoAnimationComplete, setVideoAnimationComplete] = useState({});
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -229,6 +656,7 @@ const Services = ({ config, onServiceClick }) => {
                     }}
                   >
                     <Box
+                      data-image-card
                       sx={{
                         position: "relative",
                         borderRadius: 3,
@@ -245,26 +673,61 @@ const Services = ({ config, onServiceClick }) => {
                           "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease",
                       }}
                     >
-                      {loadingMedia[service.id] && (
+                      {/* Camera Capture Animation */}
+                      {isVisible &&
+                        !service.video &&
+                        !cameraAnimationComplete[service.id] && (
+                          <CameraCaptureAnimation
+                            onComplete={() => {
+                              setCameraAnimationComplete((prev) => ({
+                                ...prev,
+                                [service.id]: true,
+                              }));
+                            }}
+                          />
+                        )}
+
+                      {loadingMedia[service.id] &&
+                        cameraAnimationComplete[service.id] && (
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              bgcolor: "rgba(0, 0, 0, 0.7)",
+                              zIndex: 2,
+                            }}
+                          >
+                            <CircularProgress sx={{ color: "primary.main" }} />
+                          </Box>
+                        )}
+                      {/* Video Recording Animation */}
+                      {isVisible &&
+                        service.video &&
+                        !videoAnimationComplete[service.id] && (
+                          <VideoRecordingAnimation
+                            onComplete={() => {
+                              setVideoAnimationComplete((prev) => ({
+                                ...prev,
+                                [service.id]: true,
+                              }));
+                            }}
+                          />
+                        )}
+
+                      {service.video ? (
                         <Box
                           sx={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            bgcolor: "rgba(0, 0, 0, 0.7)",
-                            zIndex: 2,
+                            position: "relative",
+                            width: "100%",
+                            height: "100%",
                           }}
                         >
-                          <CircularProgress sx={{ color: "primary.main" }} />
-                        </Box>
-                      )}
-                      {service.video ? (
-                        <Box sx={{ position: "relative", width: "100%", height: "100%" }}>
                           <Box
                             component="video"
                             ref={(el) => {
@@ -323,51 +786,18 @@ const Services = ({ config, onServiceClick }) => {
                               width: "100%",
                               height: "100%",
                               objectFit: "cover",
-                              cursor: "pointer",
-                              transition: "transform 0.3s ease, opacity 0.3s",
-                              opacity: loadingMedia[service.id] ? 0 : 1,
-                              "&:hover": {
-                                transform: isMobile ? "scale(1)" : "scale(1.05)",
-                              },
+                              cursor: "default",
+                              transition:
+                                "transform 0.3s ease, opacity 0.6s ease-in-out",
+                              opacity:
+                                loadingMedia[service.id] ||
+                                !videoAnimationComplete[service.id]
+                                  ? 0
+                                  : 1,
                             }}
                             onClick={(e) => {
                               e.stopPropagation();
-                              if (isMobile) {
-                                const video = videoRefs.current[index];
-                                if (video) {
-                                  if (video.paused) {
-                                    if (service.videoSpeed !== undefined) {
-                                      video.playbackRate = service.videoSpeed;
-                                    }
-                                    video.play().catch(() => {
-                                      // Handle play error silently
-                                    });
-                                  } else {
-                                    video.pause();
-                                  }
-                                }
-                              } else {
-                                onServiceClick(service.id);
-                              }
-                            }}
-                            onMouseEnter={(e) => {
-                              if (!isMobile) {
-                                const video = e.target;
-                                // Set playback speed before playing
-                                if (service.videoSpeed !== undefined) {
-                                  video.playbackRate = service.videoSpeed;
-                                }
-                                video.play().catch(() => {
-                                  // Handle play error silently
-                                });
-                              }
-                            }}
-                            onMouseLeave={(e) => {
-                              if (!isMobile) {
-                                const video = e.target;
-                                video.pause();
-                                video.currentTime = 0; // Reset to start
-                              }
+                              // Don't open service detail on video click
                             }}
                             onError={(e) => {
                               setLoadingMedia((prev) => ({
@@ -376,12 +806,13 @@ const Services = ({ config, onServiceClick }) => {
                               }));
                               // Fallback to image if video fails
                               e.target.style.display = "none";
-                              const img = e.target.parentElement?.nextElementSibling;
+                              const img =
+                                e.target.parentElement?.nextElementSibling;
                               if (img) img.style.display = "block";
                             }}
                           />
-                          {/* Play Button Overlay for Mobile */}
-                          {isMobile && !playingVideos[service.id] && (
+                          {/* Play Button Overlay - Desktop and Mobile */}
+                          {!playingVideos[service.id] && (
                             <Box
                               sx={{
                                 position: "absolute",
@@ -437,7 +868,12 @@ const Services = ({ config, onServiceClick }) => {
                                   }
                                 }}
                               >
-                                <PlayCircleIcon sx={{ fontSize: 60, color: "rgba(255, 255, 255, 0.95)" }} />
+                                <PlayCircleIcon
+                                  sx={{
+                                    fontSize: 60,
+                                    color: "rgba(255, 255, 255, 0.95)",
+                                  }}
+                                />
                               </IconButton>
                             </Box>
                           )}
@@ -447,6 +883,7 @@ const Services = ({ config, onServiceClick }) => {
                         component="img"
                         image={service.image}
                         alt={service.title}
+                        loading="lazy"
                         onLoadStart={() => {
                           if (!service.video) {
                             setLoadingMedia((prev) => ({
@@ -466,14 +903,35 @@ const Services = ({ config, onServiceClick }) => {
                           height: "100%",
                           objectFit: "cover",
                           cursor: "pointer",
-                          transition: "transform 0.3s ease, opacity 0.3s",
+                          transition:
+                            "transform 0.3s ease, opacity 0.6s ease-in-out",
                           display: service.video ? "none" : "block",
-                          opacity: loadingMedia[service.id] ? 0 : 1,
+                          opacity:
+                            loadingMedia[service.id] ||
+                            !cameraAnimationComplete[service.id]
+                              ? 0
+                              : 1,
                           "&:hover": {
                             transform: "scale(1.05)",
                           },
                         }}
-                        onClick={() => onServiceClick(service.id)}
+                        onClick={(e) => {
+                          const imageCard = e.currentTarget
+                            .closest("[data-service-id]")
+                            ?.querySelector("[data-image-card]");
+                          if (imageCard) {
+                            const rect = imageCard.getBoundingClientRect();
+                            const originPosition = {
+                              x: rect.left + rect.width / 2,
+                              y: rect.top + rect.height / 2,
+                              width: rect.width,
+                              height: rect.height,
+                            };
+                            onServiceClick(service.id, originPosition);
+                          } else {
+                            onServiceClick(service.id);
+                          }
+                        }}
                         onError={(e) => {
                           setLoadingMedia((prev) => ({
                             ...prev,
@@ -535,7 +993,24 @@ const Services = ({ config, onServiceClick }) => {
                       </Typography>
                       <Button
                         variant="contained"
-                        onClick={() => onServiceClick(service.id)}
+                        onClick={(e) => {
+                          // Get the service card image position
+                          const imageCard = e.currentTarget
+                            .closest("[data-service-id]")
+                            ?.querySelector("[data-image-card]");
+                          if (imageCard) {
+                            const rect = imageCard.getBoundingClientRect();
+                            const originPosition = {
+                              x: rect.left + rect.width / 2,
+                              y: rect.top + rect.height / 2,
+                              width: rect.width,
+                              height: rect.height,
+                            };
+                            onServiceClick(service.id, originPosition);
+                          } else {
+                            onServiceClick(service.id);
+                          }
+                        }}
                         sx={{
                           bgcolor: "primary.main",
                           background:

@@ -155,6 +155,7 @@ const About = ({ config }) => {
                 component="img"
                 image="/images/about/about.png"
                 alt="Photography studio"
+                loading="lazy"
                 onLoad={() => setImageLoaded(true)}
                 onLoadStart={() => setImageLoaded(false)}
                 sx={{

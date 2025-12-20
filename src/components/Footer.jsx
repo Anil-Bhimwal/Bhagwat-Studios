@@ -28,7 +28,7 @@ const Footer = ({ config }) => {
       sx={{
         bgcolor: "background.paper",
         color: "text.primary",
-        py: { xs: 4, md: 6 },
+        py: { xs: 4, md: 3 },
         borderTop: "1px solid rgba(255,255,255,0.1)",
       }}
     >
@@ -359,7 +359,7 @@ const Footer = ({ config }) => {
                     lineHeight: 1.6,
                   }}
                 >
-                  Sameer eye hospital, baswa road, Dalvriya ka bass, Bandikui,
+                  Samar eye hospital, baswa road, Dalvriya ka bass, Bandikui,
                   Rajasthan 303327
                 </Typography>
               </Box>

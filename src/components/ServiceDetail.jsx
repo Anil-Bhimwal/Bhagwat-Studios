@@ -2,6 +2,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 import {
   Box,
   CardMedia,
@@ -10,9 +13,11 @@ import {
   DialogContent,
   Grid,
   IconButton,
+  Link,
   Typography,
   useMediaQuery,
   useTheme,
+  Zoom,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
@@ -228,7 +233,45 @@ const CameraLoaderSmall = () => (
   </Box>
 );
 
-const ServiceDetail = ({ serviceType, open, onClose }) => {
+// Custom Zoom transition component that emerges from origin position
+const ZoomFromOrigin = React.forwardRef(function ZoomFromOrigin(
+  { children, originPosition, in: inProp, ...props },
+  ref
+) {
+  const getTransformOrigin = () => {
+    if (!originPosition || typeof window === "undefined") {
+      return "center center";
+    }
+
+    const { x, y } = originPosition;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    const originX = (x / viewportWidth) * 100;
+    const originY = (y / viewportHeight) * 100;
+
+    return `${Math.max(0, Math.min(100, originX))}% ${Math.max(
+      0,
+      Math.min(100, originY)
+    )}%`;
+  };
+
+  return (
+    <Zoom
+      ref={ref}
+      {...props}
+      in={inProp}
+      style={{
+        transformOrigin: getTransformOrigin(),
+      }}
+      timeout={600}
+    >
+      {children}
+    </Zoom>
+  );
+});
+
+const ServiceDetail = ({ serviceType, open, onClose, originPosition }) => {
   const [hoveredImage, setHoveredImage] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [loadingImages, setLoadingImages] = useState({});
@@ -305,6 +348,8 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
       onClose={onClose}
       maxWidth="lg"
       fullWidth
+      TransitionComponent={originPosition ? ZoomFromOrigin : undefined}
+      TransitionProps={originPosition ? { originPosition } : undefined}
       PaperProps={{
         sx: {
           bgcolor: "background.default",
@@ -424,6 +469,7 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                       component="img"
                       image={img.url}
                       alt={img.alt}
+                      loading="lazy"
                       onLoad={() => {
                         setLoadingImages((prev) => ({
                           ...prev,
@@ -576,6 +622,142 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
               </Box>
             </Box>
           )}
+
+          {/* Social Media Links Section */}
+          <Box
+            sx={{
+              mt: 4,
+              textAlign: "center",
+            }}
+          >
+            <Typography
+              variant="h4"
+              sx={{
+                fontSize: { xs: "1.3rem", md: "1.6rem" },
+                fontWeight: 600,
+                color: "text.primary",
+                mb: 1,
+                fontFamily: "'Playfair Display', serif",
+              }}
+            >
+              Follow Our Journey
+            </Typography>
+            <Typography
+              sx={{
+                color: "text.secondary",
+                fontSize: "0.95rem",
+                mb: 3,
+                fontStyle: "italic",
+              }}
+            >
+              See more stunning moments and behind-the-scenes magic
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+                alignItems: "center",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              <Link
+                href="https://www.instagram.com/narendra.bhagwat.501?utm_source=qr&igsh=MXNtOTYwcWk2aDk0bQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  color: "text.primary",
+                  textDecoration: "none",
+                  bgcolor: "background.paper",
+                  px: 2.5,
+                  py: 1.5,
+                  borderRadius: 2,
+                  fontSize: "0.95rem",
+                  fontWeight: 500,
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  "&:hover": {
+                    bgcolor: "rgba(225, 48, 108, 0.1)",
+                    color: "#E1306C",
+                    transform: "translateY(-2px)",
+                    boxShadow: "0 4px 12px rgba(225, 48, 108, 0.2)",
+                  },
+                }}
+              >
+                <InstagramIcon sx={{ fontSize: 24 }} />
+                <Typography component="span" sx={{ fontSize: "0.95rem" }}>
+                  View on Instagram
+                </Typography>
+              </Link>
+
+              <Link
+                href="https://www.facebook.com/share/17pzBsMBMh/"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  color: "text.primary",
+                  textDecoration: "none",
+                  bgcolor: "background.paper",
+                  px: 2.5,
+                  py: 1.5,
+                  borderRadius: 2,
+                  fontSize: "0.95rem",
+                  fontWeight: 500,
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  "&:hover": {
+                    bgcolor: "rgba(24, 119, 242, 0.1)",
+                    color: "#1877F2",
+                    transform: "translateY(-2px)",
+                    boxShadow: "0 4px 12px rgba(24, 119, 242, 0.2)",
+                  },
+                }}
+              >
+                <FacebookIcon sx={{ fontSize: 24 }} />
+                <Typography component="span" sx={{ fontSize: "0.95rem" }}>
+                  Connect on Facebook
+                </Typography>
+              </Link>
+
+              <Link
+                href="https://youtube.com/@bhagwatstudiobandikuipro-n4138?si=3hyvrnmdJAmDu-mh"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  color: "text.primary",
+                  textDecoration: "none",
+                  bgcolor: "background.paper",
+                  px: 2.5,
+                  py: 1.5,
+                  borderRadius: 2,
+                  fontSize: "0.95rem",
+                  fontWeight: 500,
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  "&:hover": {
+                    bgcolor: "rgba(255, 0, 0, 0.1)",
+                    color: "#FF0000",
+                    transform: "translateY(-2px)",
+                    boxShadow: "0 4px 12px rgba(255, 0, 0, 0.2)",
+                  },
+                }}
+              >
+                <YouTubeIcon sx={{ fontSize: 24 }} />
+                <Typography component="span" sx={{ fontSize: "0.95rem" }}>
+                  Watch on YouTube
+                </Typography>
+              </Link>
+            </Box>
+          </Box>
         </Container>
       </DialogContent>
 
@@ -710,15 +892,24 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                 bottom: 16,
                 left: "50%",
                 transform: "translateX(-50%)",
-                bgcolor: "rgba(0, 0, 0, 0.5)",
-                color: "white",
-                px: 2,
-                py: 0.5,
-                borderRadius: 1,
-                fontSize: "0.875rem",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 2,
               }}
             >
-              {selectedImageIndex + 1} / {data.images.length}
+              <Box
+                sx={{
+                  bgcolor: "rgba(0, 0, 0, 0.5)",
+                  color: "white",
+                  px: 2,
+                  py: 0.5,
+                  borderRadius: 1,
+                  fontSize: "0.875rem",
+                }}
+              >
+                {selectedImageIndex + 1} / {data.images.length}
+              </Box>
             </Box>
           </>
         )}
