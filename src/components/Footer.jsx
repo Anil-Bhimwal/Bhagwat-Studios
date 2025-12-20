@@ -1,10 +1,13 @@
 import React from 'react';
-import { Box, Typography, Container, Grid, Link, Button } from '@mui/material';
+import { Box, Typography, Container, Grid, Link, Button, IconButton } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PersonIcon from '@mui/icons-material/Person';
 import MapIcon from '@mui/icons-material/Map';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import FacebookIcon from '@mui/icons-material/Facebook';
 
 const Footer = ({ config }) => {
   const studioName = config?.studio_name || 'Bhagwat Digital Studios';
@@ -85,37 +88,92 @@ const Footer = ({ config }) => {
               Professional photography services in Bandikui, Rajasthan. Creating timeless memories through our lens.
             </Typography>
 
-            {/* Contact Person */}
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.5,
-                mb: 2,
-              }}
-            >
-              <Box
-                sx={{
-                  width: 50,
-                  height: 50,
-                  bgcolor: 'background.default',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                <PersonIcon sx={{ color: 'text.secondary', fontSize: 24 }} />
-              </Box>
+            {/* Social Media Links */}
+            <Box>
               <Typography
                 sx={{
                   color: 'text.secondary',
-                  fontSize: { xs: '1rem', md: '1.1rem' },
+                  fontSize: { xs: '0.9rem', md: '1rem' },
+                  mb: 1.5,
+                  fontWeight: 500,
                 }}
               >
-                Narender Bhagwat
+                Follow Us
               </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 1.5,
+                  alignItems: 'center',
+                }}
+              >
+                <IconButton
+                  component="a"
+                  href="https://youtube.com/@bhagwatstudiobandikuipro-n4138?si=3hyvrnmdJAmDu-mh"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    width: 48,
+                    height: 48,
+                    bgcolor: 'background.default',
+                    color: 'text.secondary',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    transition: 'all 0.3s',
+                    '&:hover': {
+                      bgcolor: '#FF0000',
+                      color: 'white',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 12px rgba(255, 0, 0, 0.3)',
+                    },
+                  }}
+                >
+                  <YouTubeIcon />
+                </IconButton>
+                <IconButton
+                  component="a"
+                  href="https://www.instagram.com/narendra.bhagwat.501?utm_source=qr&igsh=MXNtOTYwcWk2aDk0bQ=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    width: 48,
+                    height: 48,
+                    bgcolor: 'background.default',
+                    color: 'text.secondary',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    transition: 'all 0.3s',
+                    '&:hover': {
+                      bgcolor: '#E4405F',
+                      color: 'white',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 12px rgba(228, 64, 95, 0.3)',
+                    },
+                  }}
+                >
+                  <InstagramIcon />
+                </IconButton>
+                <IconButton
+                  component="a"
+                  href="https://www.facebook.com/share/17pzBsMBMh/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    width: 48,
+                    height: 48,
+                    bgcolor: 'background.default',
+                    color: 'text.secondary',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    transition: 'all 0.3s',
+                    '&:hover': {
+                      bgcolor: '#1877F2',
+                      color: 'white',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 12px rgba(24, 119, 242, 0.3)',
+                    },
+                  }}
+                >
+                  <FacebookIcon />
+                </IconButton>
+              </Box>
             </Box>
           </Grid>
 
@@ -141,6 +199,38 @@ const Footer = ({ config }) => {
                 mb: 3,
               }}
             >
+              {/* Contact Person */}
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  mb: 0.5,
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 50,
+                    height: 50,
+                    bgcolor: 'background.default',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
+                >
+                  <PersonIcon sx={{ color: 'text.secondary', fontSize: 24 }} />
+                </Box>
+                <Typography
+                  sx={{
+                    color: 'text.secondary',
+                    fontSize: { xs: '1rem', md: '1.1rem' },
+                  }}
+                >
+                  Narender Bhagwat
+                </Typography>
+              </Box>
               <Box
                 component={Link}
                 href="tel:+919928961229"
@@ -239,7 +329,7 @@ const Footer = ({ config }) => {
                 >
                   <LocationOnIcon sx={{ fontSize: { xs: 20, md: 22 }, color: 'text.secondary' }} />
                 </Box>
-                <Typography
+        <Typography
                   sx={{
                     fontSize: { xs: '0.9rem', md: '1rem' },
                     lineHeight: 1.6,
@@ -290,7 +380,7 @@ const Footer = ({ config }) => {
             }}
           >
             {config?.footer_text || '© 2025 Bhagwat Digital Studios. All rights reserved.'}
-          </Typography>
+        </Typography>
         </Box>
       </Container>
     </Box>

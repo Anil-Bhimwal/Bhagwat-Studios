@@ -5,7 +5,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   CardMedia,
-  CircularProgress,
   Container,
   Dialog,
   DialogContent,
@@ -91,6 +90,139 @@ const serviceData = {
       "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&h=400&fit=crop",
   },
 };
+
+// Compact Camera Loader Component (40x40)
+const CameraLoaderSmall = () => (
+  <Box
+    sx={{
+      position: "relative",
+      width: 40,
+      height: 40,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    {/* Camera Body */}
+    <Box
+      sx={{
+        position: "relative",
+        width: 33,
+        height: 27,
+        borderRadius: 1.5,
+        bgcolor: "rgba(255, 255, 255, 0.1)",
+        border: "2px solid rgba(255, 255, 255, 0.3)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+        boxShadow: "0 4px 16px rgba(0, 0, 0, 0.3)",
+      }}
+    >
+      {/* Camera Lens */}
+      <Box
+        sx={{
+          width: 17,
+          height: 17,
+          borderRadius: "50%",
+          border: "2px solid rgba(255, 255, 255, 0.4)",
+          bgcolor: "rgba(0, 0, 0, 0.3)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+        }}
+      >
+        {/* Inner Lens Circle */}
+        <Box
+          sx={{
+            width: 10,
+            height: 10,
+            borderRadius: "50%",
+            bgcolor: "rgba(0, 0, 0, 0.6)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+          }}
+        />
+        {/* Shutter Animation */}
+        <Box
+          sx={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            borderRadius: "50%",
+            bgcolor: "rgba(255, 255, 255, 0.9)",
+            opacity: 0,
+            animation: "shutterClick 1.5s ease-in-out infinite",
+            "@keyframes shutterClick": {
+              "0%": {
+                opacity: 0,
+                transform: "scale(0)",
+              },
+              "45%": {
+                opacity: 1,
+                transform: "scale(1)",
+              },
+              "55%": {
+                opacity: 1,
+                transform: "scale(1)",
+              },
+              "100%": {
+                opacity: 0,
+                transform: "scale(0)",
+              },
+            },
+          }}
+        />
+      </Box>
+      {/* Flash */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 3,
+          right: 4,
+          width: 4,
+          height: 4,
+          borderRadius: "50%",
+          bgcolor: "rgba(255, 255, 255, 0.6)",
+          animation: "flash 1.5s ease-in-out infinite",
+          "@keyframes flash": {
+            "0%, 100%": {
+              opacity: 0.3,
+              boxShadow: "0 0 0px rgba(255, 255, 255, 0)",
+            },
+            "48%": {
+              opacity: 0.3,
+              boxShadow: "0 0 0px rgba(255, 255, 255, 0)",
+            },
+            "50%": {
+              opacity: 1,
+              boxShadow: "0 0 8px rgba(255, 255, 255, 0.8)",
+            },
+            "52%": {
+              opacity: 0.3,
+              boxShadow: "0 0 0px rgba(255, 255, 255, 0)",
+            },
+          },
+        }}
+      />
+    </Box>
+    {/* Camera Top */}
+    <Box
+      sx={{
+        position: "absolute",
+        top: -3,
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: 20,
+        height: 4,
+        borderRadius: "4px 4px 0 0",
+        bgcolor: "rgba(255, 255, 255, 0.15)",
+        border: "1px solid rgba(255, 255, 255, 0.2)",
+        borderBottom: "none",
+      }}
+    />
+  </Box>
+);
 
 const ServiceDetail = ({ serviceType, open, onClose }) => {
   const [hoveredImage, setHoveredImage] = useState(null);
@@ -253,7 +385,7 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                           zIndex: 1,
                         }}
                       >
-                        <CircularProgress sx={{ color: "primary.main" }} />
+                        <CameraLoaderSmall />
                       </Box>
                     )}
                     <CardMedia
@@ -355,16 +487,36 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                         zIndex: 2,
                       }}
                     >
-                      <CircularProgress sx={{ color: "primary.main" }} />
+                      <CameraLoaderSmall />
                     </Box>
                   )}
                   <Box
                     component="video"
                     src={data.video}
                     controls
+                    ref={(video) => {
+                      // Set playback speed when video element is ready
+                      if (video && data.videoSpeed !== undefined) {
+                        video.playbackRate = data.videoSpeed;
+                      }
+                    }}
                     onLoadStart={() => setLoadingVideo(true)}
-                    onCanPlay={() => setLoadingVideo(false)}
-                    onLoadedData={() => setLoadingVideo(false)}
+                    onCanPlay={(e) => {
+                      const video = e.target;
+                      // Set playback speed when video can play
+                      if (data.videoSpeed !== undefined) {
+                        video.playbackRate = data.videoSpeed;
+                      }
+                      setLoadingVideo(false);
+                    }}
+                    onLoadedData={(e) => {
+                      const video = e.target;
+                      // Set playback speed when video data is loaded
+                      if (data.videoSpeed !== undefined) {
+                        video.playbackRate = data.videoSpeed;
+                      }
+                      setLoadingVideo(false);
+                    }}
                     onError={() => {
                       setLoadingVideo(false);
                     }}
@@ -487,7 +639,7 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                     zIndex: 5,
                   }}
                 >
-                  <CircularProgress sx={{ color: "primary.main" }} size={60} />
+                  <CameraLoaderSmall />
                 </Box>
               )}
               <Box
