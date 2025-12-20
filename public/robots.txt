@@ -1,4 +1,21 @@
-# https://www.robotstxt.org/robotstxt.html
-User-agent: *
-Disallow:
+# robots.txt for Bhagwat Digital Studios
 
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://bhagwatstudios.com/sitemap.xml
+
+# Disallow admin or private areas (if any)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Allow all search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
