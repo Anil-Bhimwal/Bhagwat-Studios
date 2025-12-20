@@ -5,8 +5,12 @@ import {
   CircularProgress,
   Container,
   Grid,
+  IconButton,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import React, { useEffect, useRef, useState } from "react";
 
 const Services = ({ config, onServiceClick }) => {
@@ -15,6 +19,9 @@ const Services = ({ config, onServiceClick }) => {
   const backgroundRef = useRef(null);
   const [visibleServices, setVisibleServices] = useState([]);
   const [loadingMedia, setLoadingMedia] = useState({});
+  const [playingVideos, setPlayingVideos] = useState({});
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     const observerOptions = {
@@ -105,7 +112,7 @@ const Services = ({ config, onServiceClick }) => {
         "Aerial photography and videography services capturing stunning bird's-eye views for real estate, events, and landscapes.",
       image:
         "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&h=800&fit=crop",
-      video: "/images/services/cinematography.MP4",
+      video: "/images/services/cinematography.mp4",
       videoSpeed: 0.5, // Playback speed (0.5 = half speed, 1.0 = normal, 2.0 = double speed)
     },
     {
@@ -257,86 +264,184 @@ const Services = ({ config, onServiceClick }) => {
                         </Box>
                       )}
                       {service.video ? (
-                        <Box
-                          component="video"
-                          ref={(el) => {
-                            videoRefs.current[index] = el;
-                            // Set playback rate when video element is ready
-                            if (el && service.videoSpeed !== undefined) {
-                              el.playbackRate = service.videoSpeed;
-                            }
-                          }}
-                          src={service.video}
-                          loop
-                          muted
-                          playsInline
-                          preload="metadata"
-                          onLoadStart={() => {
-                            setLoadingMedia((prev) => ({
-                              ...prev,
-                              [service.id]: true,
-                            }));
-                          }}
-                          onCanPlay={(e) => {
-                            const video = e.target;
-                            // Set playback speed when video can play
-                            if (service.videoSpeed !== undefined) {
-                              video.playbackRate = service.videoSpeed;
-                            }
-                            setLoadingMedia((prev) => ({
-                              ...prev,
-                              [service.id]: false,
-                            }));
-                          }}
-                          onLoadedData={(e) => {
-                            const video = e.target;
-                            // Set playback speed when video data is loaded
-                            if (service.videoSpeed !== undefined) {
-                              video.playbackRate = service.videoSpeed;
-                            }
-                            setLoadingMedia((prev) => ({
-                              ...prev,
-                              [service.id]: false,
-                            }));
-                          }}
-                          sx={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                            cursor: "pointer",
-                            transition: "transform 0.3s ease, opacity 0.3s",
-                            opacity: loadingMedia[service.id] ? 0 : 1,
-                            "&:hover": {
-                              transform: "scale(1.05)",
-                            },
-                          }}
-                          onClick={() => onServiceClick(service.id)}
-                          onMouseEnter={(e) => {
-                            const video = e.target;
-                            // Set playback speed before playing
-                            if (service.videoSpeed !== undefined) {
-                              video.playbackRate = service.videoSpeed;
-                            }
-                            video.play().catch(() => {
-                              // Handle play error silently
-                            });
-                          }}
-                          onMouseLeave={(e) => {
-                            const video = e.target;
-                            video.pause();
-                            video.currentTime = 0; // Reset to start
-                          }}
-                          onError={(e) => {
-                            setLoadingMedia((prev) => ({
-                              ...prev,
-                              [service.id]: false,
-                            }));
-                            // Fallback to image if video fails
-                            e.target.style.display = "none";
-                            const img = e.target.nextElementSibling;
-                            if (img) img.style.display = "block";
-                          }}
-                        />
+                        <Box sx={{ position: "relative", width: "100%", height: "100%" }}>
+                          <Box
+                            component="video"
+                            ref={(el) => {
+                              videoRefs.current[index] = el;
+                              // Set playback rate when video element is ready
+                              if (el && service.videoSpeed !== undefined) {
+                                el.playbackRate = service.videoSpeed;
+                              }
+                            }}
+                            src={service.video}
+                            loop
+                            muted
+                            playsInline
+                            preload="metadata"
+                            onLoadStart={() => {
+                              setLoadingMedia((prev) => ({
+                                ...prev,
+                                [service.id]: true,
+                              }));
+                            }}
+                            onCanPlay={(e) => {
+                              const video = e.target;
+                              // Set playback speed when video can play
+                              if (service.videoSpeed !== undefined) {
+                                video.playbackRate = service.videoSpeed;
+                              }
+                              setLoadingMedia((prev) => ({
+                                ...prev,
+                                [service.id]: false,
+                              }));
+                            }}
+                            onLoadedData={(e) => {
+                              const video = e.target;
+                              // Set playback speed when video data is loaded
+                              if (service.videoSpeed !== undefined) {
+                                video.playbackRate = service.videoSpeed;
+                              }
+                              setLoadingMedia((prev) => ({
+                                ...prev,
+                                [service.id]: false,
+                              }));
+                            }}
+                            onPlay={() => {
+                              setPlayingVideos((prev) => ({
+                                ...prev,
+                                [service.id]: true,
+                              }));
+                            }}
+                            onPause={() => {
+                              setPlayingVideos((prev) => ({
+                                ...prev,
+                                [service.id]: false,
+                              }));
+                            }}
+                            sx={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                              cursor: "pointer",
+                              transition: "transform 0.3s ease, opacity 0.3s",
+                              opacity: loadingMedia[service.id] ? 0 : 1,
+                              "&:hover": {
+                                transform: isMobile ? "scale(1)" : "scale(1.05)",
+                              },
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (isMobile) {
+                                const video = videoRefs.current[index];
+                                if (video) {
+                                  if (video.paused) {
+                                    if (service.videoSpeed !== undefined) {
+                                      video.playbackRate = service.videoSpeed;
+                                    }
+                                    video.play().catch(() => {
+                                      // Handle play error silently
+                                    });
+                                  } else {
+                                    video.pause();
+                                  }
+                                }
+                              } else {
+                                onServiceClick(service.id);
+                              }
+                            }}
+                            onMouseEnter={(e) => {
+                              if (!isMobile) {
+                                const video = e.target;
+                                // Set playback speed before playing
+                                if (service.videoSpeed !== undefined) {
+                                  video.playbackRate = service.videoSpeed;
+                                }
+                                video.play().catch(() => {
+                                  // Handle play error silently
+                                });
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!isMobile) {
+                                const video = e.target;
+                                video.pause();
+                                video.currentTime = 0; // Reset to start
+                              }
+                            }}
+                            onError={(e) => {
+                              setLoadingMedia((prev) => ({
+                                ...prev,
+                                [service.id]: false,
+                              }));
+                              // Fallback to image if video fails
+                              e.target.style.display = "none";
+                              const img = e.target.parentElement?.nextElementSibling;
+                              if (img) img.style.display = "block";
+                            }}
+                          />
+                          {/* Play Button Overlay for Mobile */}
+                          {isMobile && !playingVideos[service.id] && (
+                            <Box
+                              sx={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                bgcolor: "rgba(0, 0, 0, 0.3)",
+                                zIndex: 3,
+                                cursor: "pointer",
+                                "&:hover": {
+                                  bgcolor: "rgba(0, 0, 0, 0.4)",
+                                },
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                const video = videoRefs.current[index];
+                                if (video) {
+                                  if (service.videoSpeed !== undefined) {
+                                    video.playbackRate = service.videoSpeed;
+                                  }
+                                  video.play().catch(() => {
+                                    // Handle play error silently
+                                  });
+                                }
+                              }}
+                            >
+                              <IconButton
+                                sx={{
+                                  bgcolor: "rgba(0, 0, 0, 0.6)",
+                                  color: "rgba(255, 255, 255, 0.95)",
+                                  width: 80,
+                                  height: 80,
+                                  "&:hover": {
+                                    bgcolor: "rgba(0, 0, 0, 0.8)",
+                                    transform: "scale(1.1)",
+                                  },
+                                  transition: "all 0.3s ease",
+                                }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const video = videoRefs.current[index];
+                                  if (video) {
+                                    if (service.videoSpeed !== undefined) {
+                                      video.playbackRate = service.videoSpeed;
+                                    }
+                                    video.play().catch(() => {
+                                      // Handle play error silently
+                                    });
+                                  }
+                                }}
+                              >
+                                <PlayCircleIcon sx={{ fontSize: 60, color: "rgba(255, 255, 255, 0.95)" }} />
+                              </IconButton>
+                            </Box>
+                          )}
+                        </Box>
                       ) : null}
                       <CardMedia
                         component="img"

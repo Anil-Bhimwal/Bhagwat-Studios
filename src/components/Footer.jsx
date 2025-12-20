@@ -1,38 +1,46 @@
-import React from 'react';
-import { Box, Typography, Container, Grid, Link, Button, IconButton } from '@mui/material';
-import EmailIcon from '@mui/icons-material/Email';
-import PhoneIcon from '@mui/icons-material/Phone';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PersonIcon from '@mui/icons-material/Person';
-import MapIcon from '@mui/icons-material/Map';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import FacebookIcon from '@mui/icons-material/Facebook';
+import EmailIcon from "@mui/icons-material/Email";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import MapIcon from "@mui/icons-material/Map";
+import PersonIcon from "@mui/icons-material/Person";
+import PhoneIcon from "@mui/icons-material/Phone";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  Link,
+  Typography,
+} from "@mui/material";
+import React from "react";
 
 const Footer = ({ config }) => {
-  const studioName = config?.studio_name || 'Bhagwat Digital Studios';
-  const tagline = config?.tagline || 'Capture Your Perfect Moment';
+  const studioName = config?.studio_name || "Bhagwat Digital Film Studios";
+  const tagline = config?.tagline || "Capture Your Perfect Moment";
 
   return (
     <Box
       component="footer"
       id="contact"
       sx={{
-        bgcolor: 'background.paper',
-        color: 'text.primary',
+        bgcolor: "background.paper",
+        color: "text.primary",
         py: { xs: 4, md: 6 },
-        borderTop: '1px solid rgba(255,255,255,0.1)',
+        borderTop: "1px solid rgba(255,255,255,0.1)",
       }}
     >
       <Container maxWidth="lg">
         {/* Contact Section Header */}
-        <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 5 } }}>
+        <Box sx={{ textAlign: "center", mb: { xs: 4, md: 5 } }}>
           <Typography
             variant="h2"
             sx={{
-              fontSize: { xs: '1.8rem', md: '2.5rem' },
+              fontSize: { xs: "1.8rem", md: "2.5rem" },
               fontWeight: 700,
-              color: 'text.primary',
+              color: "text.primary",
               mb: 1,
               fontFamily: "'Playfair Display', serif",
             }}
@@ -41,8 +49,8 @@ const Footer = ({ config }) => {
           </Typography>
           <Typography
             sx={{
-              fontSize: { xs: '1rem', md: '1.1rem' },
-              color: 'text.secondary',
+              fontSize: { xs: "1rem", md: "1.1rem" },
+              color: "text.secondary",
               lineHeight: 1.6,
             }}
           >
@@ -60,17 +68,17 @@ const Footer = ({ config }) => {
                 sx={{
                   fontFamily: "'Playfair Display', serif",
                   fontWeight: 700,
-                  color: 'text.primary',
+                  color: "text.primary",
                   mb: 1,
-                  fontSize: { xs: '1.3rem', md: '1.5rem' },
+                  fontSize: { xs: "1.3rem", md: "1.5rem" },
                 }}
               >
                 {studioName}
               </Typography>
               <Typography
                 sx={{
-                  color: 'text.secondary',
-                  fontSize: { xs: '0.9rem', md: '1rem' },
+                  color: "text.secondary",
+                  fontSize: { xs: "0.9rem", md: "1rem" },
                   mb: 2,
                 }}
               >
@@ -79,21 +87,22 @@ const Footer = ({ config }) => {
             </Box>
             <Typography
               sx={{
-                color: 'rgba(255,255,255,0.6)',
-                fontSize: { xs: '0.85rem', md: '0.9rem' },
+                color: "rgba(255,255,255,0.6)",
+                fontSize: { xs: "0.85rem", md: "0.9rem" },
                 lineHeight: 1.6,
                 mb: 3,
               }}
             >
-              Professional photography services in Bandikui, Rajasthan. Creating timeless memories through our lens.
+              Professional photography services in Bandikui, Rajasthan. Creating
+              timeless memories through our lens.
             </Typography>
 
             {/* Social Media Links */}
             <Box>
               <Typography
                 sx={{
-                  color: 'text.secondary',
-                  fontSize: { xs: '0.9rem', md: '1rem' },
+                  color: "text.secondary",
+                  fontSize: { xs: "0.9rem", md: "1rem" },
                   mb: 1.5,
                   fontWeight: 500,
                 }}
@@ -102,9 +111,9 @@ const Footer = ({ config }) => {
               </Typography>
               <Box
                 sx={{
-                  display: 'flex',
+                  display: "flex",
                   gap: 1.5,
-                  alignItems: 'center',
+                  alignItems: "center",
                 }}
               >
                 <IconButton
@@ -115,15 +124,15 @@ const Footer = ({ config }) => {
                   sx={{
                     width: 48,
                     height: 48,
-                    bgcolor: 'background.default',
-                    color: 'text.secondary',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    transition: 'all 0.3s',
-                    '&:hover': {
-                      bgcolor: '#FF0000',
-                      color: 'white',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 4px 12px rgba(255, 0, 0, 0.3)',
+                    bgcolor: "background.default",
+                    color: "text.secondary",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    transition: "all 0.3s",
+                    "&:hover": {
+                      bgcolor: "#FF0000",
+                      color: "white",
+                      transform: "translateY(-2px)",
+                      boxShadow: "0 4px 12px rgba(255, 0, 0, 0.3)",
                     },
                   }}
                 >
@@ -137,15 +146,15 @@ const Footer = ({ config }) => {
                   sx={{
                     width: 48,
                     height: 48,
-                    bgcolor: 'background.default',
-                    color: 'text.secondary',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    transition: 'all 0.3s',
-                    '&:hover': {
-                      bgcolor: '#E4405F',
-                      color: 'white',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 4px 12px rgba(228, 64, 95, 0.3)',
+                    bgcolor: "background.default",
+                    color: "text.secondary",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    transition: "all 0.3s",
+                    "&:hover": {
+                      bgcolor: "#E4405F",
+                      color: "white",
+                      transform: "translateY(-2px)",
+                      boxShadow: "0 4px 12px rgba(228, 64, 95, 0.3)",
                     },
                   }}
                 >
@@ -159,15 +168,15 @@ const Footer = ({ config }) => {
                   sx={{
                     width: 48,
                     height: 48,
-                    bgcolor: 'background.default',
-                    color: 'text.secondary',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    transition: 'all 0.3s',
-                    '&:hover': {
-                      bgcolor: '#1877F2',
-                      color: 'white',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 4px 12px rgba(24, 119, 242, 0.3)',
+                    bgcolor: "background.default",
+                    color: "text.secondary",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    transition: "all 0.3s",
+                    "&:hover": {
+                      bgcolor: "#1877F2",
+                      color: "white",
+                      transform: "translateY(-2px)",
+                      boxShadow: "0 4px 12px rgba(24, 119, 242, 0.3)",
                     },
                   }}
                 >
@@ -184,17 +193,17 @@ const Footer = ({ config }) => {
               sx={{
                 fontFamily: "'Playfair Display', serif",
                 fontWeight: 600,
-                color: 'text.primary',
+                color: "text.primary",
                 mb: 2,
-                fontSize: { xs: '1.1rem', md: '1.2rem' },
+                fontSize: { xs: "1.1rem", md: "1.2rem" },
               }}
             >
               Contact Us
             </Typography>
             <Box
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
+                display: "flex",
+                flexDirection: "column",
                 gap: 1.5,
                 mb: 3,
               }}
@@ -202,8 +211,8 @@ const Footer = ({ config }) => {
               {/* Contact Person */}
               <Box
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
+                  display: "flex",
+                  alignItems: "center",
                   gap: 1.5,
                   mb: 0.5,
                 }}
@@ -212,36 +221,36 @@ const Footer = ({ config }) => {
                   sx={{
                     width: 50,
                     height: 50,
-                    bgcolor: 'background.default',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    bgcolor: "background.default",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     flexShrink: 0,
                   }}
                 >
-                  <PersonIcon sx={{ color: 'text.secondary', fontSize: 24 }} />
+                  <PersonIcon sx={{ color: "text.secondary", fontSize: 24 }} />
                 </Box>
                 <Typography
                   sx={{
-                    color: 'text.secondary',
-                    fontSize: { xs: '1rem', md: '1.1rem' },
+                    color: "text.secondary",
+                    fontSize: { xs: "1rem", md: "1.1rem" },
                   }}
                 >
-                  Narender Bhagwat
+                  Narendra Bhagwat
                 </Typography>
               </Box>
               <Box
                 component={Link}
                 href="tel:+919928961229"
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
+                  display: "flex",
+                  alignItems: "center",
                   gap: 1.5,
-                  textDecoration: 'none',
-                  color: 'text.secondary',
-                  transition: 'opacity 0.3s',
-                  '&:hover': {
+                  textDecoration: "none",
+                  color: "text.secondary",
+                  transition: "opacity 0.3s",
+                  "&:hover": {
                     opacity: 0.8,
                   },
                 }}
@@ -250,19 +259,24 @@ const Footer = ({ config }) => {
                   sx={{
                     width: 50,
                     height: 50,
-                    bgcolor: 'background.default',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    bgcolor: "background.default",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     flexShrink: 0,
                   }}
                 >
-                  <PhoneIcon sx={{ fontSize: { xs: 20, md: 22 }, color: 'text.secondary' }} />
+                  <PhoneIcon
+                    sx={{
+                      fontSize: { xs: 20, md: 22 },
+                      color: "text.secondary",
+                    }}
+                  />
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: { xs: '1rem', md: '1.1rem' },
+                    fontSize: { xs: "1rem", md: "1.1rem" },
                   }}
                 >
                   +91 9928961229
@@ -273,13 +287,13 @@ const Footer = ({ config }) => {
                 component={Link}
                 href="mailto:bhagwatnarendra247@gmail.com"
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
+                  display: "flex",
+                  alignItems: "center",
                   gap: 1.5,
-                  textDecoration: 'none',
-                  color: 'text.secondary',
-                  transition: 'opacity 0.3s',
-                  '&:hover': {
+                  textDecoration: "none",
+                  color: "text.secondary",
+                  transition: "opacity 0.3s",
+                  "&:hover": {
                     opacity: 0.8,
                   },
                 }}
@@ -288,19 +302,24 @@ const Footer = ({ config }) => {
                   sx={{
                     width: 50,
                     height: 50,
-                    bgcolor: 'background.default',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    bgcolor: "background.default",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     flexShrink: 0,
                   }}
                 >
-                  <EmailIcon sx={{ fontSize: { xs: 20, md: 22 }, color: 'text.secondary' }} />
+                  <EmailIcon
+                    sx={{
+                      fontSize: { xs: 20, md: 22 },
+                      color: "text.secondary",
+                    }}
+                  />
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: { xs: '1rem', md: '1.1rem' },
+                    fontSize: { xs: "1rem", md: "1.1rem" },
                   }}
                 >
                   bhagwatnarendra247@gmail.com
@@ -309,33 +328,39 @@ const Footer = ({ config }) => {
 
               <Box
                 sx={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
+                  display: "flex",
+                  alignItems: "flex-start",
                   gap: 1.5,
-                  color: 'text.secondary',
+                  color: "text.secondary",
                 }}
               >
                 <Box
                   sx={{
                     width: 50,
                     height: 50,
-                    bgcolor: 'background.default',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    bgcolor: "background.default",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     flexShrink: 0,
                   }}
                 >
-                  <LocationOnIcon sx={{ fontSize: { xs: 20, md: 22 }, color: 'text.secondary' }} />
+                  <LocationOnIcon
+                    sx={{
+                      fontSize: { xs: 20, md: 22 },
+                      color: "text.secondary",
+                    }}
+                  />
                 </Box>
-        <Typography
+                <Typography
                   sx={{
-                    fontSize: { xs: '0.9rem', md: '1rem' },
+                    fontSize: { xs: "0.9rem", md: "1rem" },
                     lineHeight: 1.6,
                   }}
                 >
-                  Baswa Rd, Jagir Bandikui, Bandikui, Barh Bishanpura, Rajasthan 303313
+                  Sameer eye hospital, baswa road, Dalvriya ka bass, Bandikui,
+                  Rajasthan 303327
                 </Typography>
               </Box>
             </Box>
@@ -349,13 +374,13 @@ const Footer = ({ config }) => {
               target="_blank"
               rel="noopener noreferrer"
               sx={{
-                bgcolor: 'primary.main',
-                background: 'linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)',
+                bgcolor: "primary.main",
+                background: "linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)",
                 px: 3,
                 py: 1.5,
-                '&:hover': {
-                  bgcolor: 'primary.dark',
-                  boxShadow: '0 6px 20px rgba(231, 76, 60, 0.4)',
+                "&:hover": {
+                  bgcolor: "primary.dark",
+                  boxShadow: "0 6px 20px rgba(231, 76, 60, 0.4)",
                 },
               }}
             >
@@ -367,20 +392,21 @@ const Footer = ({ config }) => {
         {/* Copyright Bar */}
         <Box
           sx={{
-            borderTop: '1px solid rgba(255,255,255,0.1)',
+            borderTop: "1px solid rgba(255,255,255,0.1)",
             mt: 4,
             pt: 3,
-            textAlign: 'center',
+            textAlign: "center",
           }}
         >
           <Typography
             sx={{
-              color: 'rgba(255,255,255,0.6)',
-              fontSize: { xs: '0.8rem', md: '0.9rem' },
+              color: "rgba(255,255,255,0.6)",
+              fontSize: { xs: "0.8rem", md: "0.9rem" },
             }}
           >
-            {config?.footer_text || '© 2025 Bhagwat Digital Studios. All rights reserved.'}
-        </Typography>
+            {config?.footer_text ||
+              "© 2025 Bhagwat Digital Film Studios. All rights reserved."}
+          </Typography>
         </Box>
       </Container>
     </Box>
@@ -388,4 +414,3 @@ const Footer = ({ config }) => {
 };
 
 export default Footer;
-

@@ -1,52 +1,88 @@
-import React, { useState, useEffect } from 'react';
+import ChatIcon from "@mui/icons-material/Chat";
+import CloseIcon from "@mui/icons-material/Close";
+import ContactMailIcon from "@mui/icons-material/ContactMail";
+import HomeIcon from "@mui/icons-material/Home";
+import InfoIcon from "@mui/icons-material/Info";
+import MenuIcon from "@mui/icons-material/Menu";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import {
   AppBar,
-  Toolbar,
   Box,
-  Typography,
   Button,
-  IconButton,
+  Divider,
   Drawer,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
-  Divider,
-  useTheme,
+  Toolbar,
+  Typography,
   useMediaQuery,
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChatIcon from '@mui/icons-material/Chat';
-import HomeIcon from '@mui/icons-material/Home';
-import InfoIcon from '@mui/icons-material/Info';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import ContactMailIcon from '@mui/icons-material/ContactMail';
-import CloseIcon from '@mui/icons-material/Close';
+  useTheme,
+} from "@mui/material";
+import React, { useState } from "react";
 
-const Logo = () => (
-  <svg width="50" height="50" viewBox="0 0 100 100" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>
-    <defs>
-      <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style={{ stopColor: '#ff6b35', stopOpacity: 1 }} />
-        <stop offset="100%" style={{ stopColor: '#e74c3c', stopOpacity: 1 }} />
-      </linearGradient>
-    </defs>
-    <rect x="20" y="35" width="60" height="45" rx="6" fill="url(#logoGrad)" />
-    <circle cx="50" cy="57.5" r="18" fill="#ffffff" />
-    <circle cx="50" cy="57.5" r="12" fill="url(#logoGrad)" />
-    <circle cx="50" cy="57.5" r="6" fill="#0f0f0f" />
-    <rect x="70" y="40" width="8" height="8" rx="2" fill="#ffffff" />
-    <rect x="25" y="25" width="15" height="8" rx="2" fill="#ffffff" opacity="0.9" />
-    <text x="50" y="95" fontFamily="'Playfair Display', serif" fontSize="24" fontWeight="700" fill="#ffffff" textAnchor="middle">
-      B
-    </text>
-  </svg>
+const Logo = ({ sx = {} }) => (
+  <Box
+    sx={{
+      width: { xs: 36, sm: 44 },
+      height: { xs: 36, sm: 44 },
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0,
+      ...sx,
+    }}
+  >
+    <svg
+      width="100%"
+      height="100%"
+      viewBox="0 0 512 512"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ display: "block" }}
+    >
+      <circle
+        cx="256"
+        cy="256"
+        r="220"
+        stroke="#F5A623"
+        strokeWidth="18"
+        fill="none"
+      />
+
+      <g fill="#F5A623">
+        <path d="M256 96 L300 180 L256 200 L212 180 Z" />
+        <path d="M416 256 L332 300 L312 256 L332 212 Z" />
+        <path d="M256 416 L212 332 L256 312 L300 332 Z" />
+        <path d="M96 256 L180 212 L200 256 L180 300 Z" />
+      </g>
+
+      <circle
+        cx="256"
+        cy="256"
+        r="110"
+        stroke="#E6E6E6"
+        strokeWidth="10"
+        fill="none"
+      />
+
+      <polygon points="238,216 238,296 302,256" fill="#FFFFFF" />
+
+      <g stroke="#FFA94D" strokeWidth="6" strokeLinecap="round">
+        <line x1="256" y1="60" x2="256" y2="30" />
+        <line x1="452" y1="256" x2="482" y2="256" />
+        <line x1="256" y1="452" x2="256" y2="482" />
+        <line x1="60" y1="256" x2="30" y2="256" />
+      </g>
+    </svg>
+  </Box>
 );
 
 const Navbar = ({ config }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -55,54 +91,54 @@ const Navbar = ({ config }) => {
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
       setMobileOpen(false);
     }
   };
 
-  const studioName = config?.studio_name || 'Bhagwat Digital Studios';
-  const nameParts = studioName.split(' ');
-  const mainName = nameParts.slice(0, -1).join(' ') || studioName;
+  const studioName = config?.studio_name || "Bhagwat Digital Studios";
+  const nameParts = studioName.split(" ");
+  const mainName = nameParts.slice(0, -1).join(" ") || studioName;
 
   const navItems = [
-    { label: 'Services', id: 'services', icon: <PhotoCameraIcon /> },
-    { label: 'About', id: 'about', icon: <InfoIcon /> },
+    { label: "Services", id: "services", icon: <PhotoCameraIcon /> },
+    { label: "About", id: "about", icon: <InfoIcon /> },
   ];
 
   const handleWhatsAppClick = () => {
     // WhatsApp URL format: wa.me/phone_number (without + sign)
-    window.open('https://wa.me/919928961229', '_blank', 'noopener,noreferrer');
+    window.open("https://wa.me/919928961229", "_blank", "noopener,noreferrer");
   };
 
   const drawer = (
-    <Box 
-      sx={{ 
-        bgcolor: 'background.paper', 
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
+    <Box
+      sx={{
+        bgcolor: "background.paper",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {/* Drawer Header */}
       <Box
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
           p: 2,
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          <Logo />
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+          <Logo sx={{ width: 36, height: 36 }} />
           <Box>
             <Typography
               variant="h6"
               sx={{
                 fontFamily: "'Playfair Display', serif",
                 fontWeight: 700,
-                color: 'text.primary',
-                fontSize: '1rem',
+                color: "text.primary",
+                fontSize: "1rem",
                 lineHeight: 1.2,
               }}
             >
@@ -111,8 +147,8 @@ const Navbar = ({ config }) => {
             <Typography
               sx={{
                 fontFamily: "'Playfair Display', serif",
-                fontSize: '0.7rem',
-                color: 'text.secondary',
+                fontSize: "0.7rem",
+                color: "text.secondary",
                 lineHeight: 1,
               }}
             >
@@ -123,8 +159,8 @@ const Navbar = ({ config }) => {
         <IconButton
           onClick={handleDrawerToggle}
           sx={{
-            color: 'text.primary',
-            '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' },
+            color: "text.primary",
+            "&:hover": { bgcolor: "rgba(255, 255, 255, 0.1)" },
           }}
         >
           <CloseIcon />
@@ -137,25 +173,25 @@ const Navbar = ({ config }) => {
         <ListItem disablePadding sx={{ mb: 1 }}>
           <ListItemButton
             onClick={() => {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
+              window.scrollTo({ top: 0, behavior: "smooth" });
               setMobileOpen(false);
             }}
             sx={{
               borderRadius: 2,
               py: 1.5,
-              '&:hover': {
-                bgcolor: 'rgba(255, 255, 255, 0.05)',
+              "&:hover": {
+                bgcolor: "rgba(255, 255, 255, 0.05)",
               },
             }}
           >
-            <HomeIcon sx={{ color: 'text.secondary', mr: 2, fontSize: 24 }} />
+            <HomeIcon sx={{ color: "text.secondary", mr: 2, fontSize: 24 }} />
             <ListItemText
               primary="Home"
               primaryTypographyProps={{
                 sx: {
-                  color: 'text.primary',
+                  color: "text.primary",
                   fontWeight: 500,
-                  fontSize: '1rem',
+                  fontSize: "1rem",
                 },
               }}
             />
@@ -170,21 +206,28 @@ const Navbar = ({ config }) => {
               sx={{
                 borderRadius: 2,
                 py: 1.5,
-                '&:hover': {
-                  bgcolor: 'rgba(255, 255, 255, 0.05)',
+                "&:hover": {
+                  bgcolor: "rgba(255, 255, 255, 0.05)",
                 },
               }}
             >
-              <Box sx={{ color: 'text.secondary', mr: 2, display: 'flex', alignItems: 'center' }}>
+              <Box
+                sx={{
+                  color: "text.secondary",
+                  mr: 2,
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 {item.icon}
               </Box>
               <ListItemText
                 primary={item.label}
                 primaryTypographyProps={{
                   sx: {
-                    color: 'text.primary',
+                    color: "text.primary",
                     fontWeight: 500,
-                    fontSize: '1rem',
+                    fontSize: "1rem",
                   },
                 }}
               />
@@ -192,22 +235,26 @@ const Navbar = ({ config }) => {
           </ListItem>
         ))}
 
-        <Divider sx={{ my: 2, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+        <Divider sx={{ my: 2, borderColor: "rgba(255, 255, 255, 0.1)" }} />
 
         {/* Action Buttons */}
         <ListItem disablePadding sx={{ mb: 1.5 }}>
           <ListItemButton
             onClick={() => {
-              window.open('https://wa.me/919928961229', '_blank', 'noopener,noreferrer');
+              window.open(
+                "https://wa.me/919928961229",
+                "_blank",
+                "noopener,noreferrer"
+              );
               setMobileOpen(false);
             }}
             sx={{
               borderRadius: 2,
               py: 1.5,
-              bgcolor: '#25D366',
-              color: 'white',
-              '&:hover': {
-                bgcolor: '#20BA5A',
+              bgcolor: "#25D366",
+              color: "white",
+              "&:hover": {
+                bgcolor: "#20BA5A",
               },
             }}
           >
@@ -217,7 +264,7 @@ const Navbar = ({ config }) => {
               primaryTypographyProps={{
                 sx: {
                   fontWeight: 600,
-                  fontSize: '1rem',
+                  fontSize: "1rem",
                 },
               }}
             />
@@ -226,14 +273,14 @@ const Navbar = ({ config }) => {
 
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => scrollToSection('contact')}
+            onClick={() => scrollToSection("contact")}
             sx={{
               borderRadius: 2,
               py: 1.5,
-              background: 'linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)',
-              color: 'white',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #e55a2b 0%, #c0392b 100%)',
+              background: "linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)",
+              color: "white",
+              "&:hover": {
+                background: "linear-gradient(135deg, #e55a2b 0%, #c0392b 100%)",
               },
             }}
           >
@@ -243,7 +290,7 @@ const Navbar = ({ config }) => {
               primaryTypographyProps={{
                 sx: {
                   fontWeight: 600,
-                  fontSize: '1rem',
+                  fontSize: "1rem",
                 },
               }}
             />
@@ -255,18 +302,18 @@ const Navbar = ({ config }) => {
       <Box
         sx={{
           p: 2,
-          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-          textAlign: 'center',
+          borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+          textAlign: "center",
         }}
       >
         <Typography
           sx={{
-            fontSize: '0.75rem',
-            color: 'text.secondary',
+            fontSize: "0.75rem",
+            color: "text.secondary",
             fontFamily: "'Playfair Display', serif",
           }}
         >
-          {config?.tagline || 'Capture Your Perfect Moment'}
+          {config?.tagline || "Capture Your Perfect Moment"}
         </Typography>
       </Box>
     </Box>
@@ -274,27 +321,37 @@ const Navbar = ({ config }) => {
 
   return (
     <>
-      <AppBar 
-        position="sticky" 
-        sx={{ 
-          bgcolor: 'background.paper',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+      <AppBar
+        position="sticky"
+        sx={{
+          bgcolor: "background.paper",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
           zIndex: 50,
         }}
       >
-        <Toolbar sx={{ maxWidth: 1200, mx: 'auto', width: '100%', py: 1, minHeight: { xs: 56, sm: 64 } }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexGrow: 1 }}>
+        <Toolbar
+          sx={{
+            maxWidth: 1200,
+            mx: "auto",
+            width: "100%",
+            py: 1,
+            minHeight: { xs: 56, sm: 64 },
+          }}
+        >
+          <Box
+            sx={{ display: "flex", alignItems: "center", gap: 1, flexGrow: 1 }}
+          >
             <Logo />
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography
                 variant="h6"
                 component="div"
                 sx={{
                   fontFamily: "'Playfair Display', serif",
                   fontWeight: 700,
-                  color: 'text.primary',
+                  color: "text.primary",
                   lineHeight: 1.2,
-                  fontSize: { xs: '1rem', sm: '1.3rem' },
+                  fontSize: { xs: "1rem", sm: "1.3rem" },
                 }}
               >
                 {mainName}
@@ -302,11 +359,11 @@ const Navbar = ({ config }) => {
               <Typography
                 sx={{
                   fontFamily: "'Playfair Display', serif",
-                  fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                  fontSize: { xs: "0.7rem", sm: "0.8rem" },
                   fontWeight: 400,
-                  color: 'text.secondary',
+                  color: "text.secondary",
                   lineHeight: 1,
-                  letterSpacing: '0.1em',
+                  letterSpacing: "0.1em",
                 }}
               >
                 STUDIOS
@@ -320,19 +377,19 @@ const Navbar = ({ config }) => {
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ color: 'text.primary' }}
+              sx={{ color: "text.primary" }}
             >
               <MenuIcon />
             </IconButton>
           ) : (
-            <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+            <Box sx={{ display: "flex", gap: 1.5, alignItems: "center" }}>
               {navItems.map((item) => (
                 <Button
                   key={item.id}
                   size="small"
                   onClick={() => scrollToSection(item.id)}
-                  sx={{ 
-                    color: 'text.secondary', 
+                  sx={{
+                    color: "text.secondary",
                     fontWeight: 500,
                     py: 0.5,
                     px: 1.5,
@@ -347,12 +404,12 @@ const Navbar = ({ config }) => {
                 startIcon={<ChatIcon sx={{ fontSize: 18 }} />}
                 onClick={handleWhatsAppClick}
                 sx={{
-                  bgcolor: '#25D366',
+                  bgcolor: "#25D366",
                   py: 0.5,
                   px: 1.5,
-                  fontSize: '0.875rem',
-                  '&:hover': {
-                    bgcolor: '#20BA5A',
+                  fontSize: "0.875rem",
+                  "&:hover": {
+                    bgcolor: "#20BA5A",
                   },
                 }}
               >
@@ -361,15 +418,16 @@ const Navbar = ({ config }) => {
               <Button
                 variant="contained"
                 size="small"
-                onClick={() => scrollToSection('contact')}
+                onClick={() => scrollToSection("contact")}
                 sx={{
-                  bgcolor: 'primary.main',
-                  background: 'linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)',
+                  bgcolor: "primary.main",
+                  background:
+                    "linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)",
                   py: 0.5,
                   px: 1.5,
-                  fontSize: '0.875rem',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
+                  fontSize: "0.875rem",
+                  "&:hover": {
+                    bgcolor: "primary.dark",
                   },
                 }}
               >
@@ -384,21 +442,21 @@ const Navbar = ({ config }) => {
         variant="temporary"
         open={mobileOpen}
         onClose={handleDrawerToggle}
-        ModalProps={{ 
+        ModalProps={{
           keepMounted: true,
           BackdropProps: {
             sx: {
-              bgcolor: 'rgba(0, 0, 0, 0.7)',
-              backdropFilter: 'blur(4px)',
+              bgcolor: "rgba(0, 0, 0, 0.7)",
+              backdropFilter: "blur(4px)",
             },
           },
         }}
         sx={{
-          display: { xs: 'block', md: 'none' },
-          '& .MuiDrawer-paper': { 
-            boxSizing: 'border-box', 
+          display: { xs: "block", md: "none" },
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
             width: 280,
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.5)",
           },
         }}
       >
@@ -409,4 +467,3 @@ const Navbar = ({ config }) => {
 };
 
 export default Navbar;
-

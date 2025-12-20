@@ -11,6 +11,8 @@ import {
   Grid,
   IconButton,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
@@ -53,6 +55,8 @@ const serviceData = {
       { url: "/images/services/drone5.png", alt: "Drone photography" },
       { url: "/images/services/drone6.jpg", alt: "Drone photography" },
     ],
+    video: "/images/services/cinematography.mp4",
+    videoSpeed: 0.5,
     videoEmoji: "🚁",
     videoThumbnail:
       "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=800&h=400&fit=crop",
@@ -230,6 +234,8 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
   const [loadingImages, setLoadingImages] = useState({});
   const [loadingVideo, setLoadingVideo] = useState(false);
   const [loadingLightboxImage, setLoadingLightboxImage] = useState(false);
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const data = serviceData[serviceType];
 
   useEffect(() => {
@@ -245,9 +251,16 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
     };
   }, [open]);
 
+  // Close lightbox when switching to mobile
+  useEffect(() => {
+    if (!isDesktop && selectedImageIndex !== null) {
+      setSelectedImageIndex(null);
+    }
+  }, [isDesktop, selectedImageIndex]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (selectedImageIndex !== null && data) {
+      if (selectedImageIndex !== null && data && isDesktop) {
         if (e.key === "ArrowLeft") {
           handlePreviousImage();
         } else if (e.key === "ArrowRight") {
@@ -258,7 +271,7 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
       }
     };
 
-    if (selectedImageIndex !== null) {
+    if (selectedImageIndex !== null && isDesktop) {
       document.addEventListener("keydown", handleKeyDown);
       setLoadingLightboxImage(true);
     }
@@ -266,7 +279,7 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [selectedImageIndex, data]);
+  }, [selectedImageIndex, data, isDesktop]);
 
   const handleNextImage = () => {
     if (data && selectedImageIndex !== null) {
@@ -318,15 +331,26 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
               justifyContent: "space-between",
               alignItems: "center",
               gap: 2,
-              flexWrap: "wrap",
+              flexWrap: "nowrap",
+              minWidth: 0,
             }}
           >
             <Typography
               variant="h2"
               sx={{
-                fontSize: { xs: "1.3rem", md: "2rem" },
+                fontSize: {
+                  xs: "1.3rem",
+                  sm: "clamp(1rem, 4vw, 1.5rem)",
+                  md: "clamp(1.2rem, 3vw, 2rem)",
+                  lg: "2rem",
+                },
                 fontWeight: 700,
                 color: "text.primary",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                flex: 1,
+                minWidth: 0,
               }}
             >
               {data.title}
@@ -337,6 +361,7 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                 bgcolor: "primary.main",
                 background: "linear-gradient(135deg, #ff6b35 0%, #e74c3c 100%)",
                 color: "white",
+                flexShrink: 0,
                 "&:hover": {
                   bgcolor: "primary.dark",
                 },
@@ -357,17 +382,24 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
                   <Box
                     onMouseEnter={() => setHoveredImage(index)}
                     onMouseLeave={() => setHoveredImage(null)}
-                    onClick={() => setSelectedImageIndex(index)}
+                    onClick={() => {
+                      // Only open lightbox on desktop
+                      if (isDesktop) {
+                        setSelectedImageIndex(index);
+                      }
+                    }}
                     sx={{
                       borderRadius: 2,
                       height: 300,
                       overflow: "hidden",
                       boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
                       transition: "transform 0.3s",
-                      cursor: "pointer",
+                      cursor: isDesktop ? "pointer" : "default",
                       position: "relative",
                       transform:
-                        hoveredImage === index ? "scale(1.05)" : "scale(1)",
+                        hoveredImage === index && isDesktop
+                          ? "scale(1.05)"
+                          : "scale(1)",
                     }}
                   >
                     {loadingImages[index] && (
@@ -547,9 +579,9 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
         </Container>
       </DialogContent>
 
-      {/* Image Lightbox Modal */}
+      {/* Image Lightbox Modal - Desktop Only */}
       <Dialog
-        open={selectedImageIndex !== null}
+        open={selectedImageIndex !== null && isDesktop}
         onClose={() => setSelectedImageIndex(null)}
         maxWidth={false}
         PaperProps={{
@@ -565,10 +597,10 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
         <IconButton
           onClick={() => setSelectedImageIndex(null)}
           sx={{
-            position: "absolute",
-            top: 8,
-            right: 8,
-            zIndex: 10,
+            position: "fixed",
+            top: 16,
+            right: 16,
+            zIndex: 1301,
             bgcolor: "rgba(0, 0, 0, 0.5)",
             color: "white",
             "&:hover": {
@@ -584,11 +616,11 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
             <IconButton
               onClick={handlePreviousImage}
               sx={{
-                position: "absolute",
-                left: 8,
+                position: "fixed",
+                left: 16,
                 top: "50%",
                 transform: "translateY(-50%)",
-                zIndex: 10,
+                zIndex: 1301,
                 bgcolor: "rgba(0, 0, 0, 0.5)",
                 color: "white",
                 "&:hover": {
@@ -602,11 +634,11 @@ const ServiceDetail = ({ serviceType, open, onClose }) => {
             <IconButton
               onClick={handleNextImage}
               sx={{
-                position: "absolute",
-                right: 8,
+                position: "fixed",
+                right: 16,
                 top: "50%",
                 transform: "translateY(-50%)",
-                zIndex: 10,
+                zIndex: 1301,
                 bgcolor: "rgba(0, 0, 0, 0.5)",
                 color: "white",
                 "&:hover": {

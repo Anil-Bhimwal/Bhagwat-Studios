@@ -1,4 +1,4 @@
-# robots.txt for Bhagwat Digital Studios
+# robots.txt for Bhagwat Digital Film Studios
 
 User-agent: *
 Allow: /

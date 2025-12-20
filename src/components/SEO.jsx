@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 // Note: If react-helmet-async is not installed, we'll use document manipulation instead
 const SEO = ({
-  title = "Bhagwat Digital Studios - Professional Photography Services",
+  title = "Bhagwat Digital Film Studios - Professional Photography Services",
   description = "Professional photography services in Bandikui, Rajasthan. Specializing in portrait, event, drone, and pre-wedding photography. Over 25 years of experience.",
   keywords = "photography studio, wedding photography, event photography, portrait photography, drone photography, pre-wedding photography, Bandikui, Rajasthan",
   image = "https://bhagwatstudios.com/images/about/about.png",

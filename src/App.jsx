@@ -16,7 +16,7 @@ const defaultConfig = {
   secondary_action_color: "#667eea",
   font_family: "Inter",
   font_size: 16,
-  studio_name: "Bhagwat Digital Studios",
+  studio_name: "Bhagwat Digital Film Studios",
   tagline: "Capture Your Perfect Moment",
   hero_title: "Capture Your Perfect Moment",
   hero_subtitle:
@@ -41,7 +41,7 @@ const defaultConfig = {
   contact_title: "Let's Create Together",
   contact_subtitle:
     "Ready to capture your special moments? Get in touch with us today to discuss your photography needs.",
-  footer_text: "© 2025 Bhagwat Digital Studios. All rights reserved.",
+  footer_text: "© 2025 Bhagwat Digital Film Studios. All rights reserved.",
 };
 
 function App() {
@@ -75,7 +75,7 @@ function App() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: config?.studio_name || "Bhagwat Digital Studios",
+    name: config?.studio_name || "Bhagwat Digital Film Studios",
     image: [
       "https://bhagwatstudios.com/images/about/about.png",
       "https://bhagwatstudios.com/images/hero/background.jpg",
@@ -84,10 +84,10 @@ function App() {
       "Professional photography services in Bandikui, Rajasthan. Specializing in portrait, event, drone, and pre-wedding photography. Over 25 years of experience capturing timeless memories.",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Baswa Rd, Jagir Bandikui",
+      streetAddress: "Sameer eye hospital, baswa road, Dalvriya ka bass",
       addressLocality: "Bandikui",
       addressRegion: "Rajasthan",
-      postalCode: "303313",
+      postalCode: "303327",
       addressCountry: "IN",
     },
     geo: {
@@ -185,13 +185,13 @@ function App() {
       {/* SEO Component */}
       <SEO
         title={`${
-          config?.studio_name || "Bhagwat Digital Studios"
+          config?.studio_name || "Bhagwat Digital Film Studios"
         } - Professional Photography Services in Bandikui, Rajasthan`}
         description={
           config?.about_text ||
           "Professional photography services in Bandikui, Rajasthan. Specializing in portrait, event, drone, and pre-wedding photography. Over 25 years of experience capturing timeless memories."
         }
-        keywords="photography studio, wedding photography, event photography, portrait photography, drone photography, pre-wedding photography, Bandikui, Rajasthan, professional photographer, Narender Bhagwat"
+        keywords="photography studio, wedding photography, event photography, portrait photography, drone photography, pre-wedding photography, Bandikui, Rajasthan, professional photographer, Narendra Bhagwat"
       />
 
       {/* Structured Data */}
