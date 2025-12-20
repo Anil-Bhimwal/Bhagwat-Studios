@@ -76,7 +76,10 @@ function App() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: config?.studio_name || "Bhagwat Digital Studios",
-    image: "https://bhagwatstudios.com/images/hero/background.jpg",
+    image: [
+      "https://bhagwatstudios.com/images/about/about.png",
+      "https://bhagwatstudios.com/images/hero/background.jpg",
+    ],
     description:
       "Professional photography services in Bandikui, Rajasthan. Specializing in portrait, event, drone, and pre-wedding photography. Over 25 years of experience capturing timeless memories.",
     address: {
