@@ -25,6 +25,9 @@ import React, { useState } from "react";
 
 const Logo = ({ sx = {} }) => (
   <Box
+    component="img"
+    src="/images/svgs/bhagwat-studios.svg"
+    alt="Bhagwat Studios Logo"
     sx={{
       width: { xs: 36, sm: 44 },
       height: { xs: 36, sm: 44 },
@@ -32,51 +35,10 @@ const Logo = ({ sx = {} }) => (
       alignItems: "center",
       justifyContent: "center",
       flexShrink: 0,
+      objectFit: "contain",
       ...sx,
     }}
-  >
-    <svg
-      width="100%"
-      height="100%"
-      viewBox="0 0 512 512"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ display: "block" }}
-    >
-      <circle
-        cx="256"
-        cy="256"
-        r="220"
-        stroke="#F5A623"
-        strokeWidth="18"
-        fill="none"
-      />
-
-      <g fill="#F5A623">
-        <path d="M256 96 L300 180 L256 200 L212 180 Z" />
-        <path d="M416 256 L332 300 L312 256 L332 212 Z" />
-        <path d="M256 416 L212 332 L256 312 L300 332 Z" />
-        <path d="M96 256 L180 212 L200 256 L180 300 Z" />
-      </g>
-
-      <circle
-        cx="256"
-        cy="256"
-        r="110"
-        stroke="#E6E6E6"
-        strokeWidth="10"
-        fill="none"
-      />
-
-      <polygon points="238,216 238,296 302,256" fill="#FFFFFF" />
-
-      <g stroke="#FFA94D" strokeWidth="6" strokeLinecap="round">
-        <line x1="256" y1="60" x2="256" y2="30" />
-        <line x1="452" y1="256" x2="482" y2="256" />
-        <line x1="256" y1="452" x2="256" y2="482" />
-        <line x1="60" y1="256" x2="30" y2="256" />
-      </g>
-    </svg>
-  </Box>
+  />
 );
 
 const Navbar = ({ config }) => {
