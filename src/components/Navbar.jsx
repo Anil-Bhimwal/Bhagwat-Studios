@@ -58,7 +58,7 @@ const Navbar = ({ config }) => {
     }
   };
 
-  const studioName = config?.studio_name || "Bhagwat Digital Studios";
+  const studioName = config?.studio_name || "Bhagwat Film Studios";
   const nameParts = studioName.split(" ");
   const mainName = nameParts.slice(0, -1).join(" ") || studioName;
 

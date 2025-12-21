@@ -18,7 +18,7 @@ import {
 import React from "react";
 
 const Footer = ({ config }) => {
-  const studioName = config?.studio_name || "Bhagwat Digital Film Studios";
+  const studioName = config?.studio_name || "Bhagwat Film Studios";
   const tagline = config?.tagline || "Capture Your Perfect Moment";
 
   return (
@@ -405,7 +405,7 @@ const Footer = ({ config }) => {
             }}
           >
             {config?.footer_text ||
-              "© 2025 Bhagwat Digital Film Studios. All rights reserved."}
+              "© 2025 Bhagwat Film Studios. All rights reserved."}
           </Typography>
         </Box>
       </Container>
