@@ -165,23 +165,19 @@ function App() {
     },
   };
 
-  useEffect(() => {
-    // Add structured data to page
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.text = JSON.stringify(structuredData);
-    document.head.appendChild(script);
-
-    return () => {
-      // Cleanup: remove script when component unmounts
-      const existingScript = document.querySelector(
-        'script[type="application/ld+json"]',
-      );
-      if (existingScript) {
-        existingScript.remove();
-      }
-    };
-  }, []);
+  // WebSite schema – helps Google show your site name instead of "Netlify" in search results
+  const websiteStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: config?.studio_name || "Bhagwat Film Studios",
+    url: "https://bhagwat-studio.netlify.app",
+    description:
+      "Professional photography services in Bandikui, Rajasthan. Bhagwat Film Studios - portrait, event, drone, and pre-wedding photography.",
+    publisher: {
+      "@type": "LocalBusiness",
+      name: config?.studio_name || "Bhagwat Film Studios",
+    },
+  };
 
   return (
     <>
@@ -195,13 +191,17 @@ function App() {
           "Professional photography services in Bandikui, Rajasthan. Specializing in portrait, event, drone, and pre-wedding photography. Over 25 years of experience capturing timeless memories."
         }
         keywords="photography studio, wedding photography, event photography, portrait photography, drone photography, pre-wedding photography, Bandikui, Rajasthan, professional photographer, Narendra Bhagwat"
-        siteName={config?.studio_name || "Bhagwat Film Studios"}
+        siteName={config?.studio_name || "Bhagwat Digital Film Studios"}
       />
 
-      {/* Structured Data */}
+      {/* Structured Data: LocalBusiness + WebSite (WebSite helps Google show site name instead of "Netlify") */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData) }}
       />
       <Box
         component="main"
