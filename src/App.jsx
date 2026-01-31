@@ -80,8 +80,8 @@ function App() {
     "@type": "LocalBusiness",
     name: config?.studio_name || "Bhagwat Film Studios",
     image: [
-      "https://bhagwatstudios.com/images/about/about.png",
-      "https://bhagwatstudios.com/images/hero/background.jpg",
+      "https://bhagwat-studio.netlify.app/images/about/about.png",
+      "https://bhagwat-studio.netlify.app/images/hero/background.jpg",
     ],
     description:
       "Professional photography services in Bandikui, Rajasthan. Specializing in portrait, event, drone, and pre-wedding photography. Over 25 years of experience capturing timeless memories.",
@@ -98,7 +98,7 @@ function App() {
       latitude: "27.0585231",
       longitude: "76.572043",
     },
-    url: "https://bhagwatstudios.com",
+    url: "https://bhagwat-studio.netlify.app",
     telephone: "+919928961229",
     email: "bhagwatnarendra247@gmail.com",
     priceRange: "$$",

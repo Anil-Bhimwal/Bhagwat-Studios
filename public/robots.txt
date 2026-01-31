@@ -4,7 +4,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://bhagwatstudios.com/sitemap.xml
+Sitemap: https://bhagwat-studio.netlify.app/sitemap.xml
 
 # Disallow admin or private areas (if any)
 # Disallow: /admin/

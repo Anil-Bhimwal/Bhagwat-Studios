@@ -5,8 +5,8 @@ const SEO = ({
   title = "Bhagwat Film Studios - Professional Photography Services",
   description = "Professional photography services in Bandikui, Rajasthan. Specializing in portrait, event, drone, and pre-wedding photography. Over 25 years of experience.",
   keywords = "photography studio, wedding photography, event photography, portrait photography, drone photography, pre-wedding photography, Bandikui, Rajasthan",
-  image = "https://bhagwatstudios.com/images/about/about.png",
-  url = "https://bhagwatstudios.com",
+  image = "https://bhagwat-studio.netlify.app/images/about/about.png",
+  url = "https://bhagwat-studio.netlify.app",
 }) => {
   useEffect(() => {
     // Update document title
