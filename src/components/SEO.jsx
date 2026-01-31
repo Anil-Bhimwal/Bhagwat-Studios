@@ -7,6 +7,7 @@ const SEO = ({
   keywords = "photography studio, wedding photography, event photography, portrait photography, drone photography, pre-wedding photography, Bandikui, Rajasthan",
   image = "https://bhagwat-studio.netlify.app/images/about/about.png",
   url = "https://bhagwat-studio.netlify.app",
+  siteName = "Bhagwat Film Studios",
 }) => {
   useEffect(() => {
     // Update document title
@@ -29,11 +30,12 @@ const SEO = ({
     updateMetaTag("description", description);
     updateMetaTag("keywords", keywords);
 
-    // Open Graph tags
+    // Open Graph tags (og:site_name helps search/social show business name)
     updateMetaTag("og:title", title, true);
     updateMetaTag("og:description", description, true);
     updateMetaTag("og:image", image, true);
     updateMetaTag("og:url", url, true);
+    updateMetaTag("og:site_name", siteName, true);
 
     // Twitter Card tags
     updateMetaTag("twitter:title", title);
@@ -48,7 +50,7 @@ const SEO = ({
       document.head.appendChild(canonical);
     }
     canonical.setAttribute("href", url);
-  }, [title, description, keywords, image, url]);
+  }, [title, description, keywords, image, url, siteName]);
 
   return null; // This component doesn't render anything
 };

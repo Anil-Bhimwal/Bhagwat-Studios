@@ -175,7 +175,7 @@ function App() {
     return () => {
       // Cleanup: remove script when component unmounts
       const existingScript = document.querySelector(
-        'script[type="application/ld+json"]'
+        'script[type="application/ld+json"]',
       );
       if (existingScript) {
         existingScript.remove();
@@ -195,6 +195,7 @@ function App() {
           "Professional photography services in Bandikui, Rajasthan. Specializing in portrait, event, drone, and pre-wedding photography. Over 25 years of experience capturing timeless memories."
         }
         keywords="photography studio, wedding photography, event photography, portrait photography, drone photography, pre-wedding photography, Bandikui, Rajasthan, professional photographer, Narendra Bhagwat"
+        siteName={config?.studio_name || "Bhagwat Film Studios"}
       />
 
       {/* Structured Data */}
