@@ -1,0 +1,4 @@
+# Prevent caching of sitemap so Google always gets the latest URLs
+/sitemap.xml
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
