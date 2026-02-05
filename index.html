@@ -27,6 +27,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0f0f0f" />
 
+    <!-- WebSite Structured Data - Helps Google show site name instead of "Netlify" -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Bhagwat Digital Film Studios",
+      "alternateName": "Bhagwat Film Studios",
+      "url": "https://bhagwat-studio.netlify.app/",
+      "description": "Professional photography services in Bandikui, Rajasthan. Specializing in portrait, event, drone, and pre-wedding photography. Over 25 years of experience.",
+      "publisher": {
+        "@type": "LocalBusiness",
+        "name": "Bhagwat Digital Film Studios"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://bhagwat-studio.netlify.app/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
     <!-- Canonical URL -->
     <link rel="canonical" href="https://bhagwat-studio.netlify.app/" />
 

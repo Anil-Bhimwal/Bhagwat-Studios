@@ -169,13 +169,22 @@ function App() {
   const websiteStructuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: config?.studio_name || "Bhagwat Film Studios",
+    name: "Bhagwat Digital Film Studios",
+    alternateName: config?.studio_name || "Bhagwat Film Studios",
     url: "https://bhagwat-studio.netlify.app",
     description:
-      "Professional photography services in Bandikui, Rajasthan. Bhagwat Film Studios - portrait, event, drone, and pre-wedding photography.",
+      "Professional photography services in Bandikui, Rajasthan. Specializing in portrait, event, drone, and pre-wedding photography. Over 25 years of experience.",
     publisher: {
       "@type": "LocalBusiness",
-      name: config?.studio_name || "Bhagwat Film Studios",
+      name: "Bhagwat Digital Film Studios",
+    },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://bhagwat-studio.netlify.app/?q={search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
     },
   };
 
@@ -191,7 +200,7 @@ function App() {
           "Professional photography services in Bandikui, Rajasthan. Specializing in portrait, event, drone, and pre-wedding photography. Over 25 years of experience capturing timeless memories."
         }
         keywords="photography studio, wedding photography, event photography, portrait photography, drone photography, pre-wedding photography, Bandikui, Rajasthan, professional photographer, Narendra Bhagwat"
-        siteName={config?.studio_name || "Bhagwat Digital Film Studios"}
+        siteName={config?.studio_name || "Bhagwat Film Studios"}
       />
 
       {/* Structured Data: LocalBusiness + WebSite (WebSite helps Google show site name instead of "Netlify") */}
@@ -201,7 +210,9 @@ function App() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(websiteStructuredData),
+        }}
       />
       <Box
         component="main"
